@@ -77,6 +77,11 @@ function getLoggedInUserRole()
     return $_SESSION['user']['Role'];
 }
 
+function isAdmin()
+{
+    return $_SESSION['user']['Role'] == 'Admin';
+}
+
 function isPost()
 {
     return $_SERVER['REQUEST_METHOD'] === 'POST';
