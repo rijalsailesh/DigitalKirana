@@ -17,7 +17,7 @@ function getAllUsers()
 {
     //get all users by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select * from user where TenantId = :tenantId";
+    $query = "select * from user where TenantId = :tenantId and Role != 'Admin'";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
@@ -41,7 +41,7 @@ require_once '../includes/themeHeader.php';
         <div class="card-body">
             <?php renderMessages(); ?>
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -77,17 +77,12 @@ require_once '../includes/themeHeader.php';
                                     <form action="/user/toggleStatus.php" method="post" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $user['Id'] ?>">
                                         <input type="hidden" name="status" value="<?= $user['Status'] ?>">
-                                        <button <?= $user['Role'] == Role::$Admin ? "disabled" : "" ?> type="submit" class='btn btn-sm <?= $user['Status'] ? "btn-danger" : "btn-primary" ?>'>
-                                            <i class=" fas fa-fw <?= $user['Status'] ? "fa-ban" : "fa-check" ?>"></i> <?= $user['Status'] ? "Disable" : "Enable" ?>
+                                        <button type="submit" class='btn btn-sm <?= $user['Status'] ? "btn-danger" : "btn-primary" ?>'>
+                                            <i class=" fas fa-fw <?= $user['Status'] ? "fa-ban" : "fa-check" ?>"></i> <?= $user['Status'] ? "Deactivate" : "Activate" ?>
                                         </button>
                                     </form>
-                                    <?php
-                                    if ($user['Role'] != Role::$Admin) :
-                                    ?>
-                                        <a href="/user/edit.php?id=<?= $user['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-edit"></i>Edit</a>
-                                    <?php
-                                    endif;
-                                    ?>
+
+                                    <a href="/user/edit.php?id=<?= $user['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-edit"></i>Edit</a>
 
                                 </td>
 

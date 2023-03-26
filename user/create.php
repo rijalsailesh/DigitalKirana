@@ -127,8 +127,8 @@ require_once '../includes/themeHeader.php';
                         <label for="role">Role</label>
                         <select name="role" id="role" class="form-control" required>
                             <option value="0">Select Role</option>
-                            <option value="<?= Role::$Admin ?>">Admin</option>
                             <option value="<?= Role::$User ?>">User</option>
+                            <option value="<?= Role::$SalesPerson ?>">Sales Person</option>
                         </select>
                     </div>
                     <div class="col-md-6 mb-4">

@@ -36,6 +36,11 @@ if ($user['TenantId'] != $tenantId) {
     header("Location: /error/accessDenied.php");
 }
 
+//check user is admin
+if ($user['Role'] == Role::$Admin) {
+    header("Location: /user");
+}
+
 if (isPost()) {
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
@@ -106,8 +111,8 @@ require_once '../includes/themeHeader.php';
                         <label for="role">Role</label>
                         <select name="role" id="role" class="form-control" required>
                             <option value="0">Select Role</option>
-                            <option <?= $user['Role'] == Role::$Admin ? "selected" : "" ?> value="<?= Role::$Admin ?>">Admin</option>
                             <option <?= $user['Role'] == Role::$User ? "selected" : "" ?> value="<?= Role::$User ?>">User</option>
+                            <option <?= $user['Role'] == Role::$SalesPerson ? "selected" : "" ?> value="<?= Role::$SalesPerson ?>">Sales Person</option>
                         </select>
                     </div>
 

@@ -1,3 +1,9 @@
+<?php
+require_once 'Connection.php';
+require_once 'functions.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,11 +63,21 @@
                 Interface
             </div>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/user">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>User</span></a>
-            </li>
+            <?php
+            if (isAdmin()) :
+            ?>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>User</span></a>
+                </li>
+
+            <?php
+            endif;
+            ?>
+
+
 
             <li class="nav-item">
                 <a class="nav-link" href="/category">

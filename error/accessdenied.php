@@ -10,7 +10,7 @@ if (!checkAuth()) {
 
 ?>
 
-<h1 class="text-center mt--4">Access Denied</h1>
+<h1 class="text-center mt-4">Access Denied</h1>
 <p class="text-center">You do not have permission to access this page.</p>
 
 <!-- go back button -->
