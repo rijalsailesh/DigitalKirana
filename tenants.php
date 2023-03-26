@@ -8,7 +8,7 @@ if (!checkAuth()) {
     header("Location: /");
 } else {
     if (getTenantId() != null) {
-        header("Location: /dashboard.php");
+        header("Location: /error/accessDenied.php");
     }
 }
 

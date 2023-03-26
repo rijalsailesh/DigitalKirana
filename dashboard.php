@@ -5,7 +5,7 @@ if (!checkAuth()) {
     header("Location: /");
 } else {
     if (getTenantId() == null) {
-        header("Location: /tenants.php");
+        header("Location: /error/accessDenied.php");
     }
 }
 require_once('includes/themeHeader.php');
