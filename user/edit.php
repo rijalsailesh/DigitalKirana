@@ -13,75 +13,54 @@ if (!isAdmin()) {
     header("Location: /error/accessDenied.php");
 }
 
-// check if form is submitted
+// get tenant id
+$userId = getParam('id');
+$tenantId = getTenantId();
+
+// get user by id
+function getUserById($userId)
+{
+    $connection = ConnectionHelper::getConnection();
+    $query = "select * from user where Id = :id";
+    $statement = $connection->prepare($query);
+    $statement->bindParam('id', $userId, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+//check user tenant id and session tenant id
+$user = getUserById($userId);
+
+if ($user['TenantId'] != $tenantId) {
+    header("Location: /error/accessDenied.php");
+}
+
 if (isPost()) {
-    // get form data
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
-    $email = $_POST['email'];
-    $username = $_POST['username'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
     $role = $_POST['role'];
-    $password = $_POST['password'];
 
-
-    if (checkUsernameExists($username)) {
-        AddErrorMessage("Username already exists");
-    } else if (checkEmailExists($email)) {
-        AddErrorMessage("Email already exists");
+    $connection = ConnectionHelper::getConnection();
+    $query = "update user set FirstName = :firstName, LastName = :lastName, Phone = :phone, Address = :address, Role = :role where Id = :id and TenantId = :tenantId";
+    $statement = $connection->prepare($query);
+    $statement->bindParam('firstName', $firstName);
+    $statement->bindParam('lastName', $lastName);
+    $statement->bindParam('phone', $phone);
+    $statement->bindParam('address', $address);
+    $statement->bindParam('role', $role);
+    $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
+    $statement->bindParam('id', $userId, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->rowCount();
+    if ($result > 0) {
+        addSuccessMessage('User updated successfully');
+        header("Location: /user");
     } else {
-        // create user
-        $connection = ConnectionHelper::getConnection();
-        $query = "INSERT INTO user (FirstName, LastName, Email, Username, Phone, Address, Role, PasswordHash, TenantId, CreatedAt) VALUES (:firstName, :lastName, :email, :username, :phone, :address, :role, :passwordHash, :tenantId, :createdAt)";
-        $statement = $connection->prepare($query);
-        $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
-        $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
-        $statement->bindParam(':email', $email, PDO::PARAM_STR);
-        $statement->bindParam(':username', $username, PDO::PARAM_STR);
-        $statement->bindParam(':phone', $phone, PDO::PARAM_STR);
-        $statement->bindParam(':address', $address, PDO::PARAM_STR);
-        $statement->bindParam(':role', $role, PDO::PARAM_STR);
-        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $statement->bindParam(':passwordHash', $passwordHash, PDO::PARAM_STR);
-        $tenantId = getTenantId(); // get tenant id from session
-        $statement->bindParam(':tenantId', $tenantId, PDO::PARAM_INT);
-        $createdAt = date('Y-m-d H:i:s');
-        $statement->bindParam(':createdAt', $createdAt, PDO::PARAM_STR);
-        $statement->execute();
-        $result = $statement->rowCount();
-        if ($result > 0) {
-            AddSuccessMessage("User created successfully");
-            header("Location: /user");
-        } else {
-            AddErrorMessage("Failed to create user");
-        }
-        // redirect to user list
+        addErrorMessage('User update failed');
     }
-}
-
-// function to check username already exists or not
-function checkUsernameExists($username)
-{
-    $connection = ConnectionHelper::getConnection();
-    $query = "SELECT * FROM user WHERE username = :username";
-    $statement = $connection->prepare($query);
-    $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->execute();
-    $user = $statement->fetch();
-    return $user;
-}
-
-// function to check email already exists or not
-function checkEmailExists($email)
-{
-    $connection = ConnectionHelper::getConnection();
-    $query = "SELECT * FROM user WHERE email = :email";
-    $statement = $connection->prepare($query);
-    $statement->bindParam(':email', $email, PDO::PARAM_STR);
-    $statement->execute();
-    $user = $statement->fetch();
-    return $user;
 }
 
 
@@ -101,39 +80,35 @@ require_once '../includes/themeHeader.php';
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <label for="firstName">First Name</label>
-                        <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name" required>
+                        <input type="text" name="firstName" id="firstName" class="form-control" value="<?= $user['FirstName'] ?>" placeholder="First Name" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label for="lastName">Last Name</label>
-                        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name" required>
+                        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name" value="<?= $user['LastName'] ?>" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label for="email">Email</label>
-                        <input type="text" name="email" id="email" class="form-control" placeholder="Email" required>
+                        <input type="text" readonly name="email" id="email" class="form-control" placeholder="Email" value="<?= $user['Email'] ?>" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
+                        <input type="text" readonly name="username" id="username" class="form-control" placeholder="Username" value="<?= $user['Username'] ?>" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label for="phone">Phone</label>
-                        <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" required>
+                        <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone" value="<?= $user['Phone'] ?>" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label for="address">Address</label>
-                        <input type="text" name="address" id="address" class="form-control" placeholder="Address" required>
+                        <input type="text" name="address" id="address" class="form-control" placeholder="Address" value="<?= $user['Address'] ?>" required>
                     </div>
                     <div class="col-md-6 mb-4">
                         <label for="role">Role</label>
                         <select name="role" id="role" class="form-control" required>
                             <option value="0">Select Role</option>
-                            <option value="<?= Role::$Admin ?>">Admin</option>
-                            <option value="<?= Role::$User ?>">User</option>
+                            <option <?= $user['Role'] == Role::$Admin ? "selected" : "" ?> value="<?= Role::$Admin ?>">Admin</option>
+                            <option <?= $user['Role'] == Role::$User ? "selected" : "" ?> value="<?= Role::$User ?>">User</option>
                         </select>
-                    </div>
-                    <div class="col-md-6 mb-4">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
                     </div>
 
                 </div>

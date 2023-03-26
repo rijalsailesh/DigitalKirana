@@ -81,7 +81,14 @@ require_once '../includes/themeHeader.php';
                                             <i class=" fas fa-fw <?= $user['Status'] ? "fa-ban" : "fa-check" ?>"></i> <?= $user['Status'] ? "Disable" : "Enable" ?>
                                         </button>
                                     </form>
-                                    <button <?= $user['Role'] == Role::$Admin ? "disabled" : "" ?> href="/user/edit.php?id=<?= $user['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-edit"></i>Edit</button>
+                                    <?php
+                                    if ($user['Role'] != Role::$Admin) :
+                                    ?>
+                                        <a href="/user/edit.php?id=<?= $user['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-edit"></i>Edit</a>
+                                    <?php
+                                    endif;
+                                    ?>
+
                                 </td>
 
                             </tr>
