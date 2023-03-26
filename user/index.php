@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
+require_once '../constants/Role.php';
 
 // check authentication
 if (!checkAuth()) {
@@ -32,8 +33,8 @@ require_once '../includes/themeHeader.php';
 ?>
 
 <div class="container-fluid">
-    <a href="user/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New User</a>
-    <div class="card mt-2">
+    <a href="/user/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New User</a>
+    <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
             <h4 class="card-title text-light">List of Users</h4>
         </div>
@@ -58,23 +59,31 @@ require_once '../includes/themeHeader.php';
                     </thead>
                     <tbody>
                         <?php
+                        $sn = 0;
                         foreach ($users as $user) :
                         ?>
                             <tr class="">
-                                <td scope="row">1</td>
+                                <td scope="row"><?= ++$sn ?></td>
                                 <td><?= $user['FirstName'] ?></td>
                                 <td><?= $user['LastName'] ?></td>
                                 <td><?= $user['Username'] ?></td>
                                 <td><?= $user['Phone'] ?></td>
                                 <td><?= $user['Address'] ?></td>
                                 <td><?= $user['Email'] ?></td>
-                                <td><?= $user['Status'] ? "Active" : "Not Active" ?></td>
+                                <td><span class="<?= $user['Status'] ? "text-primary" : "text-dark" ?> fw-bolder" style="font-weight:700;"><?= $user['Status'] ? "Active" : "Inactive" ?></span></td>
                                 <td><?= $user['Role'] ?></td>
                                 <td><?= $user['CreatedAt'] ?></td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                    <form action="/user/toggleStatus.php" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="<?= $user['Id'] ?>">
+                                        <input type="hidden" name="status" value="<?= $user['Status'] ?>">
+                                        <button <?= $user['Role'] == Role::$Admin ? "disabled" : "" ?> type="submit" class='btn btn-sm <?= $user['Status'] ? "btn-danger" : "btn-primary" ?>'>
+                                            <i class=" fas fa-fw <?= $user['Status'] ? "fa-ban" : "fa-check" ?>"></i> <?= $user['Status'] ? "Disable" : "Enable" ?>
+                                        </button>
+                                    </form>
+                                    <button <?= $user['Role'] == Role::$Admin ? "disabled" : "" ?> href="/user/edit.php?id=<?= $user['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-edit"></i>Edit</button>
                                 </td>
+
                             </tr>
                         <?php
                         endforeach;
