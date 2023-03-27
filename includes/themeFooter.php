@@ -58,6 +58,9 @@
 <!-- Page level custom scripts -->
 <script src="../assets/theme/js/demo/chart-area-demo.js"></script>
 <script src="../assets/theme/js/demo/chart-pie-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../assets/js/site.js"></script>
+
 
 </body>
 

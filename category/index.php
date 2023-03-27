@@ -64,7 +64,7 @@
                                             <td><?= $category['CreatedAt'] ?></td>
                                             <td>
                                                 <a href="/category/edit.php?id=<?= $category['Id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-fw fa-edit"></i> Edit</a>
-                                                <form method="post" action="/category/delete.php" class="d-inline">
+                                                <form id="deleteForm" method="post" action="/category/delete.php" class="d-inline">
                                                     <input type="hidden" name="id" value="<?= $category['Id'] ?>" />
                                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i> Delete</button>
                                                 </form>
