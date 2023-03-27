@@ -6,6 +6,12 @@ $u_error_message = $_SESSION['error_messagex'] ?? null;
 unset($_SESSION['success_messagex']);
 unset($_SESSION['error_messagex']);
 
+
+function saveFile($from, $to) {
+    $basePath = __DIR__ . "/../assets/imgs/logos/" . $to;
+    move_uploaded_file($from, $basePath );
+}
+
 function existDefaultUser()
 {
     $defaultUsername = "super.admin";
@@ -107,6 +113,20 @@ function dd($value)
     var_dump($value);
     die;
 }
+
+//fetch user from session id and update session
+function updateSessionUser()
+{
+    $connection = ConnectionHelper::getConnection();
+    $query = "select * from user where id = :id";
+    $statement = $connection->prepare($query);
+    $statement->bindParam('id', $_SESSION['user']['Id']);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $_SESSION['user'] = $result;
+}
+
+
 
 
 function addSuccessMessage($message)
