@@ -72,6 +72,11 @@ function getLoggedInUser()
     return $_SESSION['user'];
 }
 
+function getLoggedInUserId()
+{
+    return $_SESSION['user']['Id'];
+}
+
 function getLoggedInUserRole()
 {
     return $_SESSION['user']['Role'];

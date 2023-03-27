@@ -9,6 +9,26 @@ if (!checkAuth()) {
 }
 
 $tenantId = getTenantId();
+$categoryId = getParam('id');
+
+
+function getCategoryById($categoryId)
+{
+    $connection = ConnectionHelper::getConnection();
+    $query = "select * from category where Id = :id";
+    $statement = $connection->prepare($query);
+    $statement->bindParam('id', $categoryId, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+$category = getCategoryById($categoryId);
+
+if ($category['TenantId'] != $tenantId) {
+    header("Location: /error/accessDenied.php");
+}
+
+
 
 // check if form is submitted
 if (isPost()) {
@@ -18,22 +38,18 @@ if (isPost()) {
 
     // create user
     $connection = ConnectionHelper::getConnection();
-    $query = "INSERT INTO category (CategoryName, Description, TenantId, CreatedAt, UserId) VALUES (:categoryName, :description, :tenantId, :createdAt, :userId)";
+    $query = "update category set CategoryName = :categoryName, Description = :description where Id = :id";
     $statement = $connection->prepare($query);
-    $statement->bindParam(':categoryName', $categoryName);
-    $statement->bindParam(':description', $description);
-    $statement->bindParam(':tenantId', $tenantId);
-    $createdDate = date('Y-m-d H:i:s');
-    $statement->bindParam(':createdAt', $createdDate);
-    $userId = getLoggedInUserId();
-    $statement->bindParam(':userId', $userId);
+    $statement->bindParam('id', $categoryId);
+    $statement->bindParam('categoryName', $categoryName);
+    $statement->bindParam('description', $description);
     $statement->execute();
     $result = $statement->rowCount();
     if ($result > 0) {
-        AddSuccessMessage("Category created successfully");
+        AddSuccessMessage("Category updated successfully");
         header("Location: /category");
     } else {
-        AddErrorMessage("Failed to create category");
+        AddErrorMessage("Failed to update category");
     }
 }
 
@@ -53,11 +69,11 @@ require_once '../includes/themeHeader.php';
                 <div class="row">
                     <div class="col-12 mb-4">
                         <label for="categoryName">Category Name</label>
-                        <input type="text" name="categoryName" id="categoryName" class="form-control" placeholder="Category Name" required>
+                        <input type="text" value="<?= $category['CategoryName'] ?>" name="categoryName" id="categoryName" class="form-control" placeholder="Category Name" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="description">Description</label>
-                        <textarea type="text" name="description" id="description" class="form-control" placeholder="Description" rows="8"></textarea>
+                        <textarea type="text" name="description" id="description" class="form-control" placeholder="Description" rows="8"><?= $category['Description'] ?></textarea>
                     </div>
                 </div>
             </div>
