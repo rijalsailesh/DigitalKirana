@@ -1,6 +1,6 @@
 <?php
 require_once('../includes/functions.php');
-require_once('../includes/header.php');
+require_once('../includes/themeHeader.php');
 
 // If the user is not logged in, redirect to the login page
 if (!checkAuth()) {
@@ -10,14 +10,20 @@ if (!checkAuth()) {
 
 ?>
 
-<h1 class="text-center mt-4">Access Denied</h1>
-<p class="text-center">You do not have permission to access this page.</p>
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-<!-- go back button -->
-<div class="text-center">
-    <a href="javascript:history.back()" class="btn btn-outline-primary">Go Back</a>
+    <!-- 404 Error Text -->
+    <div class="text-center">
+        <div class="error mx-auto" data-text="401">401</div>
+        <p class="lead text-gray-800 mb-5">Unauthorized</p>
+        <p class="text-gray-500 mb-0">It looks like you are not authorized to this page...</p>
+        <a href="/dashboard.php">&larr; Back to Dashboard</a>
+    </div>
+
 </div>
+<!-- /.container-fluid -->
 
 <?php
-require_once('../includes/footer.php');
+require_once('../includes/themeFooter.php');
 ?>
