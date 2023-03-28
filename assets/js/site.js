@@ -15,11 +15,6 @@ deleteForm.forEach((form) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 form.submit();
-                Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
             }
         })
     })

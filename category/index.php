@@ -7,11 +7,6 @@
                 header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
             }
 
-            if (isPost()) {
-                session_destroy();
-                header("Location: /");
-            }
-
             function getAllCategories()
             {
                 //get all users by tenant id

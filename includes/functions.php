@@ -7,9 +7,16 @@ unset($_SESSION['success_messagex']);
 unset($_SESSION['error_messagex']);
 
 
-function saveFile($from, $to) {
+function saveLogo($from, $to)
+{
     $basePath = __DIR__ . "/../assets/imgs/logos/" . $to;
-    move_uploaded_file($from, $basePath );
+    move_uploaded_file($from, $basePath);
+}
+
+function saveProductImage($from, $to)
+{
+    $basePath = __DIR__ . "/../assets/imgs/products/" . $to;
+    move_uploaded_file($from, $basePath);
 }
 
 function existDefaultUser()
@@ -149,20 +156,20 @@ function renderMessages()
 
 function renderMessage($message, $type)
 {
-    if ($type == 'success') :
-?>
+    if ($type == 'success'):
+        ?>
         <div class="alert alert-success" role="alert">
             🎉
             <?= $message ?>
         </div>
-    <?php
-    else :
-    ?>
+        <?php
+    else:
+        ?>
         <div class="alert alert-danger" role="alert">
             💀
             <?= $message ?>
         </div>
-<?php
+        <?php
     endif;
 }
 ?>

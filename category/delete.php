@@ -3,9 +3,29 @@ require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 
 
+//check if category is used in product
+function checkCategoryInProduct($categoryId)
+{
+    $connection = ConnectionHelper::getConnection();
+    $query = "select * from product where CategoryId = :categoryId";
+    $statement = $connection->prepare($query);
+    $statement->bindParam('categoryId', $categoryId, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
 if (isPost()) {
     $categoryId = $_POST['id'];
-    //get all users by tenant id
+
+    // check if category is used in product
+    $categoryInProduct = checkCategoryInProduct($categoryId);
+    if (count($categoryInProduct) > 0) {
+        addErrorMessage("Category is used in product. It cannot be deleted.");
+        header('Location: /category');
+        return;
+    }
+
     $connection = ConnectionHelper::getConnection();
     $query = "delete from category where Id = :id";
     $statement = $connection->prepare($query);

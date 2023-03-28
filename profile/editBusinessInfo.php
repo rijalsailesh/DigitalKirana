@@ -32,7 +32,8 @@ function getUserById($userId)
     return $result;
 }
 
-function getTenant($tenantId){
+function getTenant($tenantId)
+{
     $connection = ConnectionHelper::getConnection();
     $query = "select * from tenants where Id = :id";
     $statement = $connection->prepare($query);
@@ -62,19 +63,19 @@ if (isPost()) {
     //get logo from input
     $image = $_FILES['logo'];
 
-    $imageName="";
-    if($image['size']>0){
+    $imageName = "";
+    if ($image['size'] > 0) {
         $name = date('Y-m-d-H-i-s');
         $ext = ".png";
-        $imageName = $name.$ext;
-        saveFile($image['tmp_name'], $imageName);
+        $imageName = $name . $ext;
+        saveLogo($image['tmp_name'], $imageName);
     }
 
     $connection = ConnectionHelper::getConnection();
 
-    if($imageName==""){
+    if ($imageName == "") {
         $query = "update tenants set Name = :businessName, Email = :businessEmail, Phone = :businessPhone, Address = :businessAddress where Id = :id";
-    }else{
+    } else {
         $query = "update tenants set Name = :businessName, Email = :businessEmail, Phone = :businessPhone, Address = :businessAddress, LogoUrl = :logo where Id = :id";
     }
 
@@ -83,7 +84,7 @@ if (isPost()) {
     $statement->bindParam('businessEmail', $businessEmail);
     $statement->bindParam('businessPhone', $businessPhone);
     $statement->bindParam('businessAddress', $businessAddress);
-    if($imageName!=""){
+    if ($imageName != "") {
         $statement->bindParam('logo', $imageName);
     }
     $statement->bindParam('id', $tenantId, PDO::PARAM_INT);
@@ -114,28 +115,34 @@ require_once '../includes/themeHeader.php';
                 <h5 class="text-primary">Business Details</h5>
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="/assets/imgs/logos/<?=$tenant['LogoUrl']==null?"default.png":$tenant['LogoUrl']?>" alt="Logo" class="img-fluid" id="logoPreview">
-                    </div>   
+                        <img src="/assets/imgs/logos/<?= $tenant['LogoUrl'] == null ? "default.png" : $tenant['LogoUrl'] ?>"
+                            alt="Logo" class="img-fluid" id="imagePreview">
+                    </div>
                     <div class="col-md-6">
                         <div class="mb-4">
                             <label for="businessName">Business Name</label>
-                            <input type="text" value="<?=$tenant['Name']?>" name="businessName" id="businessName" class="form-control" placeholder="Business Name" required>
+                            <input type="text" value="<?= $tenant['Name'] ?>" name="businessName" id="businessName"
+                                class="form-control" placeholder="Business Name" required>
                         </div>
                         <div class="mb-4">
                             <label for="businessEmail">Business Email</label>
-                            <input type="email" value="<?=$tenant['Email']?>" name="businessEmail" id="businessEmail" class="form-control" placeholder="Business Email" required>
+                            <input type="email" value="<?= $tenant['Email'] ?>" name="businessEmail" id="businessEmail"
+                                class="form-control" placeholder="Business Email" required>
                         </div>
                         <div class="mb-4">
                             <label for="businessPhone">Business Phone</label>
-                            <input type="text" value="<?=$tenant['Phone']?>" name="businessPhone" id="businessPhone" class="form-control" placeholder="Business Phone" required>
+                            <input type="text" value="<?= $tenant['Phone'] ?>" name="businessPhone" id="businessPhone"
+                                class="form-control" placeholder="Business Phone" required>
                         </div>
                         <div class="mb-4">
                             <label for="businessAddress">Business Address</label>
-                            <input type="text" value="<?=$tenant['Address']?>" name="businessAddress" id="businessAddress" class="form-control" placeholder="Business Address" required>
+                            <input type="text" value="<?= $tenant['Address'] ?>" name="businessAddress"
+                                id="businessAddress" class="form-control" placeholder="Business Address" required>
                         </div>
                         <div class="mb-4">
                             <label for="logo">Upload Logo</label>
-                            <input type="file" name="logo" id="logo" class="form-control-file" accept="image/*" onchange="showPreview(event);">
+                            <input type="file" name="logo" id="logo" class="form-control-file" accept="image/*"
+                                onchange="showPreview(event);">
                         </div>
                     </div>
                 </div>
@@ -148,13 +155,13 @@ require_once '../includes/themeHeader.php';
 </div>
 
 <script>
-function showPreview(event) {
-    if (event.target.files.length > 0) {
-        var src = URL.createObjectURL(event.target.files[0]);
-        var preview = document.getElementById("logoPreview");
-        preview.src = src;
+    function showPreview(event) {
+        if (event.target.files.length > 0) {
+            var src = URL.createObjectURL(event.target.files[0]);
+            var preview = document.getElementById("imagePreview");
+            preview.src = src;
+        }
     }
-}
 </script>
 
 

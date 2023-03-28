@@ -13,11 +13,10 @@ if (!isAdmin()) {
     header("Location: /error/accessDenied.php");
 }
 
-// get tenant id
 $userId = getParam('id');
+// get tenant id
 $tenantId = getTenantId();
 
-// get user by id
 function getUserById($userId)
 {
     $connection = ConnectionHelper::getConnection();
@@ -29,9 +28,9 @@ function getUserById($userId)
     return $result;
 }
 
-//check user tenant id and session tenant id
 $user = getUserById($userId);
 
+//check user tenant id and session tenant id
 if ($user['TenantId'] != $tenantId) {
     header("Location: /error/accessDenied.php");
 }

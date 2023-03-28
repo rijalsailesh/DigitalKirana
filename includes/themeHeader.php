@@ -92,12 +92,17 @@ $tenant = getTenantById(getTenantId());
             endif;
             ?>
 
-
-
             <li class="nav-item">
                 <a class="nav-link" href="/category">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Category</span></a>
+            </li>
+
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/product">
+                    <i class="fas fa-fw fa-fire"></i>
+                    <span>Product</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
