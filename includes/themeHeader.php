@@ -83,7 +83,7 @@ $tenant = getTenantById(getTenantId());
             <?php
             if (isAdmin()):
                 ?>
-                <li class="nav-item <?= $_SERVER['REQUEST_URI'] == "/user/" ? "active" : "" ?>">
+                <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "user/") ? "active" : "" ?>">
                     <a class="nav-link" href="/user">
                         <i class="fas fa-fw fa-user"></i>
                         <span>User</span></a>
@@ -92,17 +92,17 @@ $tenant = getTenantById(getTenantId());
             endif;
             ?>
 
-            <li class="nav-item <?= $_SERVER['REQUEST_URI'] == "/category/" ? "active" : "" ?>"">
+            <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "category/") ? "active" : "" ?>">
                 <a class=" nav-link" href="/category">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Category</span></a>
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Category</span></a>
             </li>
 
 
-            <li class="nav-item <?= $_SERVER['REQUEST_URI'] == "/product/" ? "active" : "" ?>"">
+            <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "product/") ? "active" : "" ?>">
                 <a class=" nav-link" href="/product">
-                <i class="fas fa-fw fa-fire"></i>
-                <span>Product</span></a>
+                    <i class="fas fa-fw fa-fire"></i>
+                    <span>Product</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
