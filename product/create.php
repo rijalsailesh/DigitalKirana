@@ -53,6 +53,9 @@ if (isPost()) {
     $wholesalePrice = $_POST['wholesalePrice'];
     $unit = $_POST['unit'];
     $quantity = $_POST['quantity'];
+    $minimumQuantity = $_POST['minimumQuantity'];
+    $maximumQuantity = $_POST['maximumQuantity'];
+
 
     // check duplicate product code
     $duplicateProductCode = checkDuplicateProductCode($productCode);
@@ -78,7 +81,7 @@ if (isPost()) {
 
     // create user
     $connection = ConnectionHelper::getConnection();
-    $query = "INSERT INTO product (ProductName, ProductCode,Description, TenantId, CreatedAt, UserId, CategoryId, CostPrice, SellingPrice, WholesalePrice, Unit, Quantity, ImageUrl) VALUES (:productName, :productCode, :description, :tenantId, :createdAt, :userId, :categoryId, :costPrice, :sellingPrice, :wholesalePrice, :unit, :quantity, :imageUrl)";
+    $query = "INSERT INTO product (ProductName, ProductCode,Description, TenantId, CreatedAt, UserId, CategoryId, CostPrice, SellingPrice, WholesalePrice, Unit, Quantity, ImageUrl, MinimumQuantity, MaximumQuantity) VALUES (:productName, :productCode, :description, :tenantId, :createdAt, :userId, :categoryId, :costPrice, :sellingPrice, :wholesalePrice, :unit, :quantity, :imageUrl, :minimumQuantity, :maximumQuantity)";
     $statement = $connection->prepare($query);
     $statement->bindParam(':productName', $productName);
     $statement->bindParam(':productCode', $productCode);
@@ -91,6 +94,8 @@ if (isPost()) {
     $statement->bindParam(':unit', $unit);
     $statement->bindParam(':quantity', $quantity);
     $statement->bindParam(':imageUrl', $imageName);
+    $statement->bindParam(':minimumQuantity', $minimumQuantity);
+    $statement->bindParam(':maximumQuantity', $maximumQuantity);
 
     $createdDate = date('Y-m-d H:i:s');
     $statement->bindParam(':createdAt', $createdDate);
@@ -100,7 +105,7 @@ if (isPost()) {
     $result = $statement->rowCount();
     if ($result > 0) {
         AddSuccessMessage("Product created successfully");
-        header("Location: /Product");
+        header("Location: /product");
     } else {
         AddErrorMessage("Failed to create product");
     }
@@ -120,7 +125,7 @@ require_once '../includes/themeHeader.php';
             <div class="card-body bg-gray">
                 <?php renderMessages(); ?>
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-md-9">
                         <div class="col-12 mb-4">
                             <label for="productName">Product Name</label>
                             <input type="text" name="productName" id="productName" class="form-control"
@@ -161,26 +166,38 @@ require_once '../includes/themeHeader.php';
 
                         <div class="col-12 mb-4">
                             <label for="sellingPrice">Selling Price</label>
-                            <input type="number" name="sellingPrice" id="sellingPrice" class="form-control"
-                                placeholder="Product Code" required>
+                            <input type="number" min="0" name="sellingPrice" id="sellingPrice" class="form-control"
+                                placeholder="Selling Price" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="costPrice">Cost Price</label>
-                            <input type="number" name="costPrice" id="costPrice" class="form-control"
+                            <input type="number" min="0" name="costPrice" id="costPrice" class="form-control"
                                 placeholder="Cost Price" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="wholesalePrice">Wholesale Price</label>
-                            <input type="number" name="wholesalePrice" id="wholesalePrice" class="form-control"
+                            <input type="number" min="0" name="wholesalePrice" id="wholesalePrice" class="form-control"
                                 placeholder="Wholesale Price" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="quantity">Quantity</label>
-                            <input type="number" name="quantity" id="quantity" class="form-control"
+                            <input type="number" min="0" name="quantity" id="quantity" class="form-control"
                                 placeholder="Quantity" required>
+                        </div>
+
+                        <div class="col-12 mb-4">
+                            <label for="minimumQuantity">Minimum Quantity</label>
+                            <input type="number" min="0" name="minimumQuantity" id="minimumQuantity"
+                                class="form-control" placeholder="Minimum Quantity" required>
+                        </div>
+
+                        <div class="col-12 mb-4">
+                            <label for="maximumQuantity">Maximum Quantity</label>
+                            <input type="number" min="0" name="maximumQuantity" id="maximumQuantity"
+                                class="form-control" placeholder="Maximum Quantity" required>
                         </div>
 
                         <div class="col-12 mb-4">

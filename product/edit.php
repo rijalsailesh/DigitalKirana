@@ -76,6 +76,8 @@ if (isPost()) {
     $wholesalePrice = $_POST['wholesalePrice'];
     $unit = $_POST['unit'];
     $quantity = $_POST['quantity'];
+    $maximumQuantity = $_POST['maximumQuantity'];
+    $minimumQuantity = $_POST['minimumQuantity'];
 
     // check duplicate product code
     $duplicateProductCode = checkDuplicateProductCode($productCode);
@@ -104,9 +106,9 @@ if (isPost()) {
 
     //if image is not uploaded
     if ($imageName == "") {
-        $query = "update product set ProductName = :productName, ProductCode = :productCode, Description = :description, CategoryId = :categoryId, CostPrice = :costPrice, SellingPrice = :sellingPrice, WholesalePrice = :wholesalePrice, Unit = :unit, Quantity = :quantity where Id = :id";
+        $query = "update product set ProductName = :productName, ProductCode = :productCode, Description = :description, CategoryId = :categoryId, CostPrice = :costPrice, SellingPrice = :sellingPrice, WholesalePrice = :wholesalePrice, Unit = :unit, Quantity = :quantity, MaximumQuantity = :maximumQuantity, MinimumQuantity = :minimumQuantity where Id = :id";
     } else {
-        $query = "update product set ProductName = :productName, ProductCode = :productCode, Description = :description, CategoryId = :categoryId, CostPrice = :costPrice, SellingPrice = :sellingPrice, WholesalePrice = :wholesalePrice, Unit = :unit, Quantity = :quantity, ImageUrl = :imageUrl where Id = :id";
+        $query = "update product set ProductName = :productName, ProductCode = :productCode, Description = :description, CategoryId = :categoryId, CostPrice = :costPrice, SellingPrice = :sellingPrice, WholesalePrice = :wholesalePrice, Unit = :unit, Quantity = :quantity, ImageUrl = :imageUrl, MaximumQuantity = :maximumQuantity, MinimumQuantity = :minimumQuantity where Id = :id";
     }
     $statement = $connection->prepare($query);
 
@@ -120,6 +122,8 @@ if (isPost()) {
     $statement->bindParam('unit', $unit, PDO::PARAM_STR);
     $statement->bindParam('quantity', $quantity, PDO::PARAM_INT);
     $statement->bindParam('id', $productId, PDO::PARAM_INT);
+    $statement->bindParam('maximumQuantity', $maximumQuantity, PDO::PARAM_INT);
+    $statement->bindParam('minimumQuantity', $minimumQuantity, PDO::PARAM_INT);
 
     if ($imageName != "") {
         $statement->bindParam('imageUrl', $imageName, PDO::PARAM_STR);
@@ -128,10 +132,10 @@ if (isPost()) {
     $statement->execute();
     $result = $statement->rowCount();
     if ($result > 0) {
-        AddSuccessMessage("Product created successfully");
-        header("Location: /Product");
+        AddSuccessMessage("Product updated successfully");
+        header("Location: /product");
     } else {
-        AddErrorMessage("Failed to create product");
+        AddErrorMessage("Failed to update product");
     }
 }
 
@@ -193,26 +197,42 @@ require_once '../includes/themeHeader.php';
 
                         <div class="col-12 mb-4">
                             <label for="sellingPrice">Selling Price</label>
-                            <input type="number" name="sellingPrice" id="sellingPrice" class="form-control"
+                            <input type="number" min="0" name="sellingPrice" id="sellingPrice" class="form-control"
                                 placeholder="Product Code" value="<?= $product['SellingPrice'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="costPrice">Cost Price</label>
-                            <input type="number" name="costPrice" id="costPrice" class="form-control"
+                            <input type="number" min="0" name="costPrice" id="costPrice" class="form-control"
                                 placeholder="Cost Price" value="<?= $product['CostPrice'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="wholesalePrice">Wholesale Price</label>
-                            <input type="number" name="wholesalePrice" id="wholesalePrice" class="form-control"
+                            <input type="number" min="0" name="wholesalePrice" id="wholesalePrice" class="form-control"
                                 placeholder="Wholesale Price" value="<?= $product['WholesalePrice'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="quantity">Quantity</label>
-                            <input type="number" name="quantity" id="quantity" value="<?= $product['Quantity'] ?>"
-                                class="form-control" placeholder="Quantity" required>
+                            <input type="number" min="0" name="quantity" id="quantity"
+                                value="<?= $product['Quantity'] ?>" class="form-control" placeholder="Quantity"
+                                required>
+                        </div>
+
+
+                        <div class="col-12 mb-4">
+                            <label for="minimumQuantity">Minimum Quantity</label>
+                            <input type="number" min="0" name="minimumQuantity"
+                                value="<?= $product['MinimumQuantity'] ?>" id="minimumQuantity" class="form-control"
+                                placeholder="Minimum Quantity" required>
+                        </div>
+
+                        <div class="col-12 mb-4">
+                            <label for="maximumQuantity">Maximum Quantity</label>
+                            <input type="number" min="0" name="maximumQuantity"
+                                value="<?= $product['MaximumQuantity'] ?>" id="maximumQuantity" class="form-control"
+                                placeholder="Maximum Quantity" required>
                         </div>
 
                         <div class="col-12 mb-4">

@@ -11,7 +11,7 @@ function getAllProducts()
 {
     //get all users by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select p.Id, p.ImageUrl, p.ProductCode, p.ProductName, p.SellingPrice, p.CostPrice, p.WholesalePrice, p.Unit, p.Quantity, p.CreatedAt, p.Description, u.FirstName, u.LastName, c.CategoryName from product p inner join user u on p.UserId = u.Id inner join category c on p.CategoryId = c.Id where p.TenantId = :tenantId";
+    $query = "select p.Id, p.ImageUrl, p.ProductCode, p.ProductName, p.SellingPrice, p.CostPrice, p.WholesalePrice, p.Unit, p.Quantity, p.CreatedAt, p.Description, c.CategoryName from product p inner join category c on p.CategoryId = c.Id where p.TenantId = :tenantId";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
@@ -40,17 +40,13 @@ require_once '../includes/themeHeader.php';
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Image</th>
-                            <th scope="col">Product Code</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Product Code</th>
                             <th scope="col">Category</th>
                             <th scope="col">Unit</th>
                             <th scope="col">Selling Price</th>
                             <th scope="col">Cost Price</th>
                             <th scope="col">Wholesale Price</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Added By</th>
-                            <th scope="col">Created At</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -70,15 +66,15 @@ require_once '../includes/themeHeader.php';
                                             width="60" height="60" class="rounded-circle" style="object-fit:cover" />
                                     </a>
                                 </td>
-                                <td>
-                                    <?= $product['ProductCode'] ?>
-                                </td>
+
                                 <td>
                                     <?= $product['ProductName'] ?>
                                 </td>
+
                                 <td>
-                                    <?= $product['Description'] ?>
+                                    <?= $product['ProductCode'] ?>
                                 </td>
+
                                 <td>
                                     <?= $product['CategoryName'] ?>
                                 </td>
@@ -93,15 +89,6 @@ require_once '../includes/themeHeader.php';
                                 </td>
                                 <td>
                                     <?= $product['WholesalePrice'] ?>
-                                </td>
-                                <td>
-                                    <?= $product['Quantity'] ?>
-                                </td>
-                                <td>
-                                    <?= $product['FirstName'] . " " . $product['LastName'] ?>
-                                </td>
-                                <td>
-                                    <?= $product['CreatedAt'] ?>
                                 </td>
                                 <td>
                                     <a href="/product/edit.php?id=<?= $product['Id'] ?>" class="btn btn-sm btn-primary"><i
@@ -123,12 +110,6 @@ require_once '../includes/themeHeader.php';
         </div>
     </div>
 </div>
-
-<style>
-    td {
-        width: 300px;
-    }
-</style>
 
 <?php
 require_once '../includes/themeFooter.php';
