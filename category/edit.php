@@ -8,8 +8,8 @@ if (!checkAuth()) {
     header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
 }
 
-$tenantId = getTenantId();
-$categoryId = getParam('id');
+$tenantId = getTenantId(); //getting tenant id from session
+$categoryId = getParam('id'); //getting categoryId from url
 
 
 function getCategoryById($categoryId)
@@ -22,12 +22,14 @@ function getCategoryById($categoryId)
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
 }
+
+//get category by id
 $category = getCategoryById($categoryId);
 
+//checking category tenant id and session tenant id
 if ($category['TenantId'] != $tenantId) {
     header("Location: /error/accessDenied.php");
 }
-
 
 
 // check if form is submitted
@@ -36,7 +38,7 @@ if (isPost()) {
     $categoryName = $_POST['categoryName'];
     $description = $_POST['description'];
 
-    // create user
+    // create category
     $connection = ConnectionHelper::getConnection();
     $query = "update category set CategoryName = :categoryName, Description = :description where Id = :id";
     $statement = $connection->prepare($query);
@@ -69,11 +71,13 @@ require_once '../includes/themeHeader.php';
                 <div class="row">
                     <div class="col-12 mb-4">
                         <label for="categoryName">Category Name</label>
-                        <input type="text" value="<?= $category['CategoryName'] ?>" name="categoryName" id="categoryName" class="form-control" placeholder="Category Name" required>
+                        <input type="text" value="<?= $category['CategoryName'] ?>" name="categoryName"
+                            id="categoryName" class="form-control" placeholder="Category Name" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="description">Description</label>
-                        <textarea type="text" name="description" id="description" class="form-control" placeholder="Description" rows="8"><?= $category['Description'] ?></textarea>
+                        <textarea type="text" name="description" id="description" class="form-control"
+                            placeholder="Description" rows="8"><?= $category['Description'] ?></textarea>
                     </div>
                 </div>
             </div>

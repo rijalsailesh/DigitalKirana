@@ -2,8 +2,6 @@
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 
-
-//check if category is used in product
 function checkCategoryInProduct($categoryId)
 {
     $connection = ConnectionHelper::getConnection();
@@ -15,8 +13,9 @@ function checkCategoryInProduct($categoryId)
     return $result;
 }
 
+//if form is submitted
 if (isPost()) {
-    $categoryId = $_POST['id'];
+    $categoryId = $_POST['id']; //getting category id
 
     // check if category is used in product
     $categoryInProduct = checkCategoryInProduct($categoryId);
@@ -26,6 +25,7 @@ if (isPost()) {
         return;
     }
 
+    //delete category
     $connection = ConnectionHelper::getConnection();
     $query = "delete from category where Id = :id";
     $statement = $connection->prepare($query);

@@ -13,15 +13,19 @@ $tenantId = getTenantId(); //getting tenant id from session
 // check if form is submitted
 if (isPost()) {
     // get form data
-    $categoryName = $_POST['categoryName'];
-    $description = $_POST['description'];
+    $supplierName = $_POST['supplierName'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $address = $_POST['address'];
 
     // create category
     $connection = ConnectionHelper::getConnection();
-    $query = "INSERT INTO category (CategoryName, Description, TenantId, CreatedAt, UserId) VALUES (:categoryName, :description, :tenantId, :createdAt, :userId)";
+    $query = "INSERT INTO supplier (SupplierName, Phone, Email, Address, TenantId, CreatedAt, UserId) VALUES (:supplierName, :phone, :email, :address, :tenantId, :createdAt, :userId)";
     $statement = $connection->prepare($query);
-    $statement->bindParam(':categoryName', $categoryName);
-    $statement->bindParam(':description', $description);
+    $statement->bindParam(':supplierName', $supplierName);
+    $statement->bindParam(':phone', $phone);
+    $statement->bindParam(':email', $email);
+    $statement->bindParam(':address', $address);
     $statement->bindParam(':tenantId', $tenantId);
     $createdDate = date('Y-m-d H:i:s');
     $statement->bindParam(':createdAt', $createdDate);
@@ -30,10 +34,10 @@ if (isPost()) {
     $statement->execute();
     $result = $statement->rowCount();
     if ($result > 0) {
-        AddSuccessMessage("Category created successfully");
-        header("Location: /category");
+        AddSuccessMessage("Supplier created successfully");
+        header("Location: /supplier");
     } else {
-        AddErrorMessage("Failed to create category");
+        AddErrorMessage("Failed to create supplier");
     }
 }
 
@@ -52,14 +56,22 @@ require_once '../includes/themeHeader.php';
                 <?php renderMessages(); ?>
                 <div class="row">
                     <div class="col-12 mb-4">
-                        <label for="categoryName">Category Name</label>
-                        <input type="text" name="categoryName" id="categoryName" class="form-control"
-                            placeholder="Category Name" required>
+                        <label for="supplierName">Supplier Name</label>
+                        <input type="text" name="supplierName" id="supplierName" class="form-control"
+                            placeholder="Supplier Name" required>
                     </div>
                     <div class="col-12 mb-4">
-                        <label for="description">Description</label>
-                        <textarea type="text" name="description" id="description" class="form-control"
-                            placeholder="Description" rows="8"></textarea>
+                        <label for="phone">Phone</label>
+                        <input type="phone" name="phone" id="phone" class="form-control" placeholder="Phone" required>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <label for="address">Address</label>
+                        <textarea name="address" id="address" class="form-control" placeholder="Address"
+                            rows="8"></textarea>
                     </div>
                 </div>
             </div>

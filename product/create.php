@@ -8,11 +8,11 @@ if (!checkAuth()) {
     header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
 }
 
-$tenantId = getTenantId();
+$tenantId = getTenantId(); //getting tenant id from session
 
 function getAllCategories()
 {
-    //get all users by tenant id
+    //get all categories by tenant id
     $connection = ConnectionHelper::getConnection();
     $query = "select * from category where TenantId = :tenantId";
     $statement = $connection->prepare($query);
@@ -67,7 +67,6 @@ if (isPost()) {
     }
 
     // upload image
-    //get logo from input
     $image = $_FILES['productImage'];
 
     $imageName = "";
@@ -79,7 +78,7 @@ if (isPost()) {
     }
 
 
-    // create user
+    // create product
     $connection = ConnectionHelper::getConnection();
     $query = "INSERT INTO product (ProductName, ProductCode,Description, TenantId, CreatedAt, UserId, CategoryId, CostPrice, SellingPrice, WholesalePrice, Unit, Quantity, ImageUrl, MinimumQuantity, MaximumQuantity) VALUES (:productName, :productCode, :description, :tenantId, :createdAt, :userId, :categoryId, :costPrice, :sellingPrice, :wholesalePrice, :unit, :quantity, :imageUrl, :minimumQuantity, :maximumQuantity)";
     $statement = $connection->prepare($query);

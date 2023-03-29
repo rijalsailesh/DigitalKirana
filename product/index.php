@@ -9,7 +9,7 @@ if (!checkAuth()) {
 
 function getAllProducts()
 {
-    //get all users by tenant id
+    //get all products by tenant id
     $connection = ConnectionHelper::getConnection();
     $query = "select p.Id, p.ImageUrl, p.ProductCode, p.ProductName, p.SellingPrice, p.CostPrice, p.WholesalePrice, p.Unit, p.Quantity, p.CreatedAt, p.Description, c.CategoryName from product p inner join category c on p.CategoryId = c.Id where p.TenantId = :tenantId";
     $statement = $connection->prepare($query);

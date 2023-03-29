@@ -8,7 +8,7 @@ if (!checkAuth()) {
     header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
 }
 
-$tenantId = getTenantId();
+$tenantId = getTenantId(); //getting tenant id from session
 
 //get product by id
 function getProductById($id)
@@ -22,8 +22,8 @@ function getProductById($id)
     return $result;
 }
 
+$productId = getParam('id'); //getting product id from url
 // get product by id
-$productId = getParam('id');
 $product = getProductById($productId);
 
 //check tenant id and current user tenant id

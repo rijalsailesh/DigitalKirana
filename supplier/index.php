@@ -7,11 +7,11 @@ if (!checkAuth()) {
     header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
 }
 
-function getAllCategories()
+function getAllSuppliers()
 {
     //get all users by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select c.Id, c.CategoryName, c.CreatedAt, c.Description, u.FirstName, u.LastName from category c inner join user u on c.UserId = u.Id where c.TenantId = :tenantId";
+    $query = "select s.Id, s.SupplierName, s.CreatedAt, s.Email, s.Address, s.Phone ,u.FirstName, u.LastName from supplier s inner join user u on s.UserId = u.Id where s.TenantId = :tenantId";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
@@ -20,17 +20,17 @@ function getAllCategories()
     return $result;
 }
 
-// get all categories
-$categories = getAllCategories();
+// get all suppliers
+$suppliers = getAllSuppliers();
 
 require_once '../includes/themeHeader.php';
 ?>
 
 <div class="container-fluid">
-    <a href="/category/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Category</a>
+    <a href="/supplier/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Supplier</a>
     <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
-            <h4 class="card-title text-light">List of Categories</h4>
+            <h4 class="card-title text-light">List of Suppliers</h4>
         </div>
         <div class="card-body">
             <?php renderMessages(); ?>
@@ -40,7 +40,9 @@ require_once '../includes/themeHeader.php';
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Address</th>
                             <th scope="col">Added By</th>
                             <th scope="col">Created At</th>
                             <th scope="col">Action</th>
@@ -49,29 +51,35 @@ require_once '../includes/themeHeader.php';
                     <tbody>
                         <?php
                         $sn = 0;
-                        foreach ($categories as $category):
+                        foreach ($suppliers as $supplier):
                             ?>
                             <tr>
                                 <td scope="row">
                                     <?= ++$sn ?>
                                 </td>
                                 <td>
-                                    <?= $category['CategoryName'] ?>
+                                    <?= $supplier['SupplierName'] ?>
                                 </td>
                                 <td>
-                                    <?= $category['Description'] ?>
+                                    <?= $supplier['Email'] ?>
                                 </td>
                                 <td>
-                                    <?= $category['FirstName'] . " " . $category['LastName'] ?>
+                                    <?= $supplier['Phone'] ?>
                                 </td>
                                 <td>
-                                    <?= $category['CreatedAt'] ?>
+                                    <?= $supplier['Address'] ?>
                                 </td>
                                 <td>
-                                    <a href="/category/edit.php?id=<?= $category['Id'] ?>" class="btn btn-sm btn-primary"><i
+                                    <?= $supplier['FirstName'] . " " . $supplier['LastName'] ?>
+                                </td>
+                                <td>
+                                    <?= $supplier['CreatedAt'] ?>
+                                </td>
+                                <td>
+                                    <a href="/supplier/edit.php?id=<?= $supplier['Id'] ?>" class="btn btn-sm btn-primary"><i
                                             class="fas fa-fw fa-edit"></i> Edit</a>
-                                    <form id="deleteForm" method="post" action="/category/delete.php" class="d-inline">
-                                        <input type="hidden" name="id" value="<?= $category['Id'] ?>" />
+                                    <form id="deleteForm" method="post" action="/supplier/delete.php" class="d-inline">
+                                        <input type="hidden" name="id" value="<?= $supplier['Id'] ?>" />
                                         <button type="submit" class="btn btn-sm btn-danger"><i
                                                 class="fas fa-fw fa-trash"></i> Delete</button>
                                     </form>
