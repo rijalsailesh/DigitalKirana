@@ -104,19 +104,25 @@ $tenant = getTenantById(getTenantId());
                     <i class="fas fa-fw fa-fire"></i>
                     <span>Product</span></a>
             </li>
+            <hr class="sidebar-divider">
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li
+                class="nav-item  <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "active" : "" ?>">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Supplier / Customer</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo"
+                    class="collapse <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "show" : "" ?>"
+                    aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="cards.html">Supplier</a>
-                        <a class="collapse-item" href="buttons.html">Customer</a>
+                        <h6 class="collapse-header">Suppliers & Customers</h6>
+                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "supplier/") ? "active" : "" ?>"
+                            href="/supplier">Supplier</a>
+                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "customer/") ? "active" : "" ?>"
+                            href="/customer">Customer</a>
                     </div>
                 </div>
             </li>
@@ -139,7 +145,6 @@ $tenant = getTenantById(getTenantId());
             </li> -->
 
             <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
 
             <!-- Heading -->
             <!-- <div class="sidebar-heading">

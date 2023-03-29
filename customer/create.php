@@ -13,16 +13,16 @@ $tenantId = getTenantId(); //getting tenant id from session
 // check if form is submitted
 if (isPost()) {
     // get form data
-    $supplierName = $_POST['supplierName'];
+    $customerName = $_POST['customerName'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
     $address = $_POST['address'];
 
     // create category
     $connection = ConnectionHelper::getConnection();
-    $query = "INSERT INTO supplier (SupplierName, Phone, Email, Address, TenantId, CreatedAt, UserId) VALUES (:supplierName, :phone, :email, :address, :tenantId, :createdAt, :userId)";
+    $query = "INSERT INTO customer (CustomerName, Phone, Email, Address, TenantId, CreatedAt, UserId) VALUES (:customerName, :phone, :email, :address, :tenantId, :createdAt, :userId)";
     $statement = $connection->prepare($query);
-    $statement->bindParam(':supplierName', $supplierName);
+    $statement->bindParam(':customerName', $customerName);
     $statement->bindParam(':phone', $phone);
     $statement->bindParam(':email', $email);
     $statement->bindParam(':address', $address);
@@ -34,10 +34,10 @@ if (isPost()) {
     $statement->execute();
     $result = $statement->rowCount();
     if ($result > 0) {
-        AddSuccessMessage("Supplier created successfully");
-        header("Location: /supplier");
+        AddSuccessMessage("Customer created successfully");
+        header("Location: /customer");
     } else {
-        AddErrorMessage("Failed to create supplier");
+        AddErrorMessage("Failed to create customer");
     }
 }
 
@@ -50,15 +50,15 @@ require_once '../includes/themeHeader.php';
         <a href="/category" class="btn btn-danger"><i class="fas fa-fw fa-arrow-left"></i> Back to Categories</a>
         <div class="card mt-2  shadow-lg">
             <div class="card-header bg-primary">
-                <h4 class="card-title text-light">Create Supplier</h4>
+                <h4 class="card-title text-light">Create Customer</h4>
             </div>
             <div class="card-body bg-gray">
                 <?php renderMessages(); ?>
                 <div class="row">
                     <div class="col-12 mb-4">
-                        <label for="supplierName">Supplier Name</label>
-                        <input type="text" name="supplierName" id="supplierName" class="form-control"
-                            placeholder="Supplier Name" required>
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" name="customerName" id="customerName" class="form-control"
+                            placeholder="Customer Name" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="phone">Phone</label>

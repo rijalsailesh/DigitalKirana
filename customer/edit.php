@@ -9,13 +9,13 @@ if (!checkAuth()) {
 }
 
 $tenantId = getTenantId(); //getting tenant id from session
-$supplierId = getParam('id'); //getting supplierId from url
+$customerId = getParam('id'); //getting customerId from url
 
 
-function getSupplierById($supplierId)
+function getCustomerById($supplierId)
 {
     $connection = ConnectionHelper::getConnection();
-    $query = "select * from supplier where Id = :id";
+    $query = "select * from customer where Id = :id";
     $statement = $connection->prepare($query);
     $statement->bindParam('id', $supplierId, PDO::PARAM_INT);
     $statement->execute();
@@ -23,39 +23,38 @@ function getSupplierById($supplierId)
     return $result;
 }
 
-//get supplier by id
-$supplier = getSupplierById($supplierId);
+//get customer by id
+$customer = getCustomerById($customerId);
 
-//checking supplier tenant id and session tenant id
-if ($supplier['TenantId'] != $tenantId) {
+//checking customer tenant id and session tenant id
+if ($customer['TenantId'] != $tenantId) {
     header("Location: /error/accessDenied.php");
 }
-
 
 // check if form is submitted
 if (isPost()) {
     // get form data
-    $supplierName = $_POST['supplierName'];
+    $customerName = $_POST['customerName'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
     $address = $_POST['address'];
 
-    // create category
+    // update customer
     $connection = ConnectionHelper::getConnection();
-    $query = "update supplier set SupplierName = :supplierName, Phone = :phone, Email = :email, Address = :address where Id = :id";
+    $query = "update customer set CustomerName = :customerName, Phone = :phone, Email = :email, Address = :address where Id = :id";
     $statement = $connection->prepare($query);
-    $statement->bindParam('id', $supplierId);
-    $statement->bindParam('supplierName', $supplierName);
+    $statement->bindParam('id', $customerId);
+    $statement->bindParam('customerName', $customerName);
     $statement->bindParam('email', $email);
     $statement->bindParam('address', $address);
     $statement->bindParam('phone', $phone);
     $statement->execute();
     $result = $statement->rowCount();
     if ($result > 0) {
-        AddSuccessMessage("Supplier updated successfully");
-        header("Location: /supplier");
+        AddSuccessMessage("Customer updated successfully");
+        header("Location: /customer");
     } else {
-        AddErrorMessage("Failed to update supplier");
+        AddErrorMessage("Failed to update customer");
     }
 }
 
@@ -65,33 +64,33 @@ require_once '../includes/themeHeader.php';
 <div class="container-fluid">
     <form action="" method="post">
 
-        <a href="/supplier" class="btn btn-danger"><i class="fas fa-fw fa-arrow-left"></i> Back to Suppliers</a>
+        <a href="/customer" class="btn btn-danger"><i class="fas fa-fw fa-arrow-left"></i> Back to Customers</a>
         <div class="card mt-2  shadow-lg">
             <div class="card-header bg-primary">
-                <h4 class="card-title text-light">Create Category</h4>
+                <h4 class="card-title text-light">Create Customer</h4>
             </div>
             <div class="card-body bg-gray">
                 <?php renderMessages(); ?>
                 <div class="row">
                     <div class="col-12 mb-4">
-                        <label for="supplierName">Supplier Name</label>
-                        <input type="text" name="supplierName" id="supplierName" class="form-control"
-                            placeholder="Supplier Name" value="<?= $supplier['SupplierName'] ?>" required>
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" name="customerName" id="customerName" class="form-control"
+                            placeholder="Customer Name" value="<?= $customer['CustomerName'] ?>" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="phone">Phone</label>
                         <input type="phone" name="phone" id="phone" class="form-control" placeholder="Phone"
-                            value="<?= $supplier['Phone'] ?>" required>
+                            value="<?= $customer['Phone'] ?>" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="email">Email</label>
                         <input type="email" name="email" id="email" class="form-control" placeholder="Email"
-                            value="<?= $supplier['Email'] ?>" required>
+                            value="<?= $customer['Email'] ?>" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="address">Address</label>
                         <textarea name="address" id="address" class="form-control" placeholder="Address"
-                            rows="8"><?= $supplier['Address'] ?></textarea>
+                            rows="8"><?= $customer['Address'] ?></textarea>
                     </div>
                 </div>
             </div>

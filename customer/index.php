@@ -7,11 +7,11 @@ if (!checkAuth()) {
     header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
 }
 
-function getAllSuppliers()
+function getAllCustomers()
 {
-    //get all suppliers by tenant id
+    //get all customers by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select s.Id, s.SupplierName, s.CreatedAt, s.Email, s.Address, s.Phone ,u.FirstName, u.LastName from supplier s inner join user u on s.UserId = u.Id where s.TenantId = :tenantId";
+    $query = "select c.Id, c.CustomerName, c.CreatedAt, c.Email, c.Address, c.Phone ,u.FirstName, u.LastName from customer c inner join user u on c.UserId = u.Id where c.TenantId = :tenantId";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
@@ -20,17 +20,17 @@ function getAllSuppliers()
     return $result;
 }
 
-// get all suppliers
-$suppliers = getAllSuppliers();
+// get all customers
+$customers = getAllCustomers();
 
 require_once '../includes/themeHeader.php';
 ?>
 
 <div class="container-fluid">
-    <a href="/supplier/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Supplier</a>
+    <a href="/customer/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Customer</a>
     <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
-            <h4 class="card-title text-light">List of Suppliers</h4>
+            <h4 class="card-title text-light">List of Customers</h4>
         </div>
         <div class="card-body">
             <?php renderMessages(); ?>
@@ -51,35 +51,35 @@ require_once '../includes/themeHeader.php';
                     <tbody>
                         <?php
                         $sn = 0;
-                        foreach ($suppliers as $supplier):
+                        foreach ($customers as $customer):
                             ?>
                             <tr>
                                 <td scope="row">
                                     <?= ++$sn ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['SupplierName'] ?>
+                                    <?= $customer['CustomerName'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['Email'] ?>
+                                    <?= $customer['Email'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['Phone'] ?>
+                                    <?= $customer['Phone'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['Address'] ?>
+                                    <?= $customer['Address'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['FirstName'] . " " . $supplier['LastName'] ?>
+                                    <?= $customer['FirstName'] . " " . $customer['LastName'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['CreatedAt'] ?>
+                                    <?= $customer['CreatedAt'] ?>
                                 </td>
                                 <td>
-                                    <a href="/supplier/edit.php?id=<?= $supplier['Id'] ?>" class="btn btn-sm btn-primary"><i
+                                    <a href="/customer/edit.php?id=<?= $customer['Id'] ?>" class="btn btn-sm btn-primary"><i
                                             class="fas fa-fw fa-edit"></i> Edit</a>
-                                    <form id="deleteForm" method="post" action="/supplier/delete.php" class="d-inline">
-                                        <input type="hidden" name="id" value="<?= $supplier['Id'] ?>" />
+                                    <form id="deleteForm" method="post" action="/customer/delete.php" class="d-inline">
+                                        <input type="hidden" name="id" value="<?= $customer['Id'] ?>" />
                                         <button type="submit" class="btn btn-sm btn-danger"><i
                                                 class="fas fa-fw fa-trash"></i> Delete</button>
                                     </form>

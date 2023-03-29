@@ -63,7 +63,9 @@ require_once '../includes/themeHeader.php';
                                     <a
                                         href="/assets/imgs/products/<?= $product['ImageUrl'] == null ? "default.png" : $product['ImageUrl'] ?>">
                                         <img src="/assets/imgs/products/<?= $product['ImageUrl'] == null ? "default.png" : $product['ImageUrl'] ?>"
-                                            width="60" height="60" class="rounded-circle" style="object-fit:cover" />
+                                            width="60" height="60"
+                                            class="rounded-circle border border-5 border-primary shadow-sm"
+                                            style="object-fit:cover" />
                                     </a>
                                 </td>
 
