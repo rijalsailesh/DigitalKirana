@@ -94,6 +94,18 @@ if (isPost()) {
             $result = $statement->rowCount();
             if ($result > 0) {
 
+                //updating product quantity
+                function updateProductQuantity($productId, $quantity)
+                {
+                    $connection = ConnectionHelper::getConnection();
+                    $query = "update product set Quantity = Quantity + :quantity where Id = :productId";
+                    $statement = $connection->prepare($query);
+                    $statement->bindParam('quantity', $quantity);
+                    $statement->bindParam('productId', $productId);
+                    $statement->execute();
+                }
+                updateProductQuantity($productIds[$i], $quantities[$i]);
+
                 //adding productId, supplierId and tenantId to product_supplier table
                 //check if productId, supplierId and tenantId already exists in product_supplier table
                 $query = "select * from supplier_products where ProductId = :productId and SupplierId = :supplierId and TenantId = :tenantId";
