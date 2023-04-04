@@ -156,20 +156,17 @@ require_once '../includes/themeHeader.php';
                     <div class="col-9">
                         <div class="col-12 mb-4">
                             <label for="productName">Product Name</label>
-                            <input type="text" name="productName" id="productName" class="form-control"
-                                placeholder="Product Name" value="<?= $product['ProductName'] ?>" required>
+                            <input type="text" name="productName" id="productName" class="form-control" placeholder="Product Name" value="<?= $product['ProductName'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="productCode">Product Code</label>
-                            <input type="text" name="productCode" id="productCode" class="form-control"
-                                placeholder="Product Code" value="<?= $product['ProductCode'] ?>" required>
+                            <input type="text" name="productCode" id="productCode" class="form-control" placeholder="Product Code" value="<?= $product['ProductCode'] ?>">
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="description">Description</label>
-                            <textarea type="text" name="description" id="description" class="form-control"
-                                placeholder="Description" rows="6"> <?= $product['Description'] ?> </textarea>
+                            <textarea type="text" name="description" id="description" class="form-control" placeholder="Description" rows="6"> <?= $product['Description'] ?> </textarea>
                         </div>
 
                         <div class="col-12 mb-4">
@@ -178,12 +175,12 @@ require_once '../includes/themeHeader.php';
                                 <option value="">Select Category</option>
 
                                 <?php
-                                foreach ($categories as $category):
+                                foreach ($categories as $category) :
                                     $selected = $category['Id'] == $product['CategoryId'] ? 'selected' : '';
-                                    ?>
+                                ?>
                                     <option value="<?= $category['Id'] ?>" <?= $selected ?>><?= $category['CategoryName'] ?>
                                     </option>
-                                    <?php
+                                <?php
                                 endforeach;
                                 ?>
                             </select>
@@ -191,59 +188,47 @@ require_once '../includes/themeHeader.php';
 
                         <div class="col-12 mb-4">
                             <label for="unit">Unit</label>
-                            <input type="text" name="unit" id="unit" class="form-control" placeholder="Unit"
-                                value="<?= $product['Unit'] ?>" required>
+                            <input type="text" name="unit" id="unit" class="form-control" placeholder="Unit" value="<?= $product['Unit'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="sellingPrice">Selling Price</label>
-                            <input type="number" min="0" name="sellingPrice" id="sellingPrice" class="form-control"
-                                placeholder="Product Code" value="<?= $product['SellingPrice'] ?>" required>
+                            <input type="number" min="0" name="sellingPrice" id="sellingPrice" class="form-control" placeholder="Product Code" value="<?= $product['SellingPrice'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="costPrice">Cost Price</label>
-                            <input type="number" min="0" name="costPrice" id="costPrice" class="form-control"
-                                placeholder="Cost Price" value="<?= $product['CostPrice'] ?>" required>
+                            <input type="number" min="0" name="costPrice" id="costPrice" class="form-control" placeholder="Cost Price" value="<?= $product['CostPrice'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="wholesalePrice">Wholesale Price</label>
-                            <input type="number" min="0" name="wholesalePrice" id="wholesalePrice" class="form-control"
-                                placeholder="Wholesale Price" value="<?= $product['WholesalePrice'] ?>" required>
+                            <input type="number" min="0" name="wholesalePrice" id="wholesalePrice" class="form-control" placeholder="Wholesale Price" value="<?= $product['WholesalePrice'] ?>" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="quantity">Quantity</label>
-                            <input type="number" min="0" name="quantity" id="quantity"
-                                value="<?= $product['Quantity'] ?>" class="form-control" placeholder="Quantity"
-                                required>
+                            <input type="number" min="0" name="quantity" id="quantity" value="<?= $product['Quantity'] ?>" class="form-control" placeholder="Quantity" required>
                         </div>
 
 
                         <div class="col-12 mb-4">
                             <label for="minimumQuantity">Minimum Quantity</label>
-                            <input type="number" min="0" name="minimumQuantity"
-                                value="<?= $product['MinimumQuantity'] ?>" id="minimumQuantity" class="form-control"
-                                placeholder="Minimum Quantity" required>
+                            <input type="number" min="0" name="minimumQuantity" value="<?= $product['MinimumQuantity'] ?>" id="minimumQuantity" class="form-control" placeholder="Minimum Quantity" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="maximumQuantity">Maximum Quantity</label>
-                            <input type="number" min="0" name="maximumQuantity"
-                                value="<?= $product['MaximumQuantity'] ?>" id="maximumQuantity" class="form-control"
-                                placeholder="Maximum Quantity" required>
+                            <input type="number" min="0" name="maximumQuantity" value="<?= $product['MaximumQuantity'] ?>" id="maximumQuantity" class="form-control" placeholder="Maximum Quantity" required>
                         </div>
 
                         <div class="col-12 mb-4">
                             <label for="productImage">Upload Image</label>
-                            <input type="file" name="productImage" id="productImage" class="form-control-file"
-                                accept="image/*" onchange="showPreview(event);">
+                            <input type="file" name="productImage" id="productImage" class="form-control-file" accept="image/*" onchange="showPreview(event);">
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <img src="/assets/imgs/products/<?= $product['ImageUrl'] == null ? "default.png" : $product['ImageUrl'] ?>"
-                            class="img-fluid" id="imagePreview" />
+                        <img src="/assets/imgs/products/<?= $product['ImageUrl'] == null ? "default.png" : $product['ImageUrl'] ?>" class="img-fluid" id="imagePreview" />
                     </div>
                 </div>
             </div>

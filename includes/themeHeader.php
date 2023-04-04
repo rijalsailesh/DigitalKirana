@@ -127,6 +127,12 @@ $tenant = getTenantById(getTenantId());
                 </div>
             </li>
 
+            <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "purchase/") ? "active" : "" ?>">
+                <a class=" nav-link" href="/purchase">
+                    <i class="fas fa-fw fa-water"></i>
+                    <span>Purchase</span></a>
+            </li>
+
             <!-- Nav Item - Utilities Collapse Menu -->
             <!-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">

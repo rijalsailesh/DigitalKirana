@@ -47,7 +47,7 @@ require_once '../includes/themeHeader.php';
 <div class="container-fluid">
     <form action="" method="post">
 
-        <a href="/category" class="btn btn-danger"><i class="fas fa-fw fa-arrow-left"></i> Back to Categories</a>
+        <a href="/supplier" class="btn btn-danger"><i class="fas fa-fw fa-arrow-left"></i> Back to Suppliers</a>
         <div class="card mt-2  shadow-lg">
             <div class="card-header bg-primary">
                 <h4 class="card-title text-light">Create Supplier</h4>

@@ -1,4 +1,4 @@
-
+//delete form
 var deleteForm = document.querySelectorAll('#deleteForm');
 
 deleteForm.forEach((form) => {
