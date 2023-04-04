@@ -38,12 +38,94 @@ function getAllProducts()
 $suppliers = getAllSuppliers();
 $products = getAllProducts();
 
-
+$tenantId = getTenantId();
+$loggedInUserId = getLoggedInUserId();
 //adding to database
+
+$connection = ConnectionHelper::getConnection();
+if (isPost()) {
+    $connection->beginTransaction();
+    //getting purchase
+    $billNumber = $_POST['billNumber'];
+    $createdAt = $_POST['createdAt'];
+    $supplierId = $_POST['supplierId'];
+    $grossTotal = $_POST['grossTotal'];
+    $discount = $_POST['discount'];
+    $vat = $_POST['vat'];
+    $netTotal = $_POST['netTotal'];
+    $remarks = $_POST['remarks'];
+
+    //inerting into purchase table
+    $connection = ConnectionHelper::getConnection();
+    $query = "insert into purchase (BillNumber, SupplierId, GrossTotal, Discount, Vat, NetTotal, Remarks, CreatedAt, UserId, TenantId) values (:billNumber, :supplierId, :grossTotal, :discount, :vat, :netTotal, :remarks, :createdAt, :userId, :tenantId)";
+    $statement = $connection->prepare($query);
+    $statement->bindParam('billNumber', $billNumber);
+    $statement->bindParam('createdAt', $createdAt);
+    $statement->bindParam('supplierId', $supplierId);
+    $statement->bindParam('grossTotal', $grossTotal);
+    $statement->bindParam('discount', $discount);
+    $statement->bindParam('vat', $vat);
+    $statement->bindParam('netTotal', $netTotal);
+    $statement->bindParam('remarks', $remarks);
+    $statement->bindParam('userId', $loggedInUserId);
+    $statement->bindParam('tenantId', $tenantId);
+    $statement->execute();
+
+    $purchaseId = $connection->lastInsertId();
+
+    if ($purchaseId > 0) {
+        //inserting into purchase_details table
+        $productIds = $_POST['productId'];
+        $rates = $_POST['rate'];
+        $quantities = $_POST['quantity'];
+        $totalAmounts = $_POST['totalAmount'];
+
+        for ($i = 0; $i < count($productIds); $i++) {
+            $query = "insert into purchase_details (PurchaseId, ProductId, Rate, Quantity, TotalAmount, TenantId) values (:purchaseId, :productId, :rate, :quantity, :totalAmount, :tenantId)";
+            $connection = ConnectionHelper::getConnection();
+            $statement = $connection->prepare($query);
+            $statement->bindParam('purchaseId', $purchaseId);
+            $statement->bindParam('productId', $productIds[$i]);
+            $statement->bindParam('rate', $rates[$i]);
+            $statement->bindParam('quantity', $quantities[$i]);
+            $statement->bindParam('totalAmount', $totalAmounts[$i]);
+            $statement->bindParam('tenantId', $tenantId);
+            $statement->execute();
+            $result = $statement->rowCount();
+            if ($result > 0) {
+
+                //adding productId, supplierId and tenantId to product_supplier table
+                //check if productId, supplierId and tenantId already exists in product_supplier table
+                $query = "select * from supplier_products where ProductId = :productId and SupplierId = :supplierId and TenantId = :tenantId";
+                $connection = ConnectionHelper::getConnection();
+                $statement = $connection->prepare($query);
+                $statement->bindParam('productId', $productIds[$i]);
+                $statement->bindParam('supplierId', $supplierId);
+                $statement->bindParam('tenantId', $tenantId);
+                $statement->execute();
+                $result = $statement->rowCount();
+                if ($result == 0) {
+                    $query = "insert into supplier_products (ProductId, SupplierId, TenantId) values (:productId, :supplierId, :tenantId)";
+                    $connection = ConnectionHelper::getConnection();
+                    $statement = $connection->prepare($query);
+                    $statement->bindParam('productId', $productIds[$i]);
+                    $statement->bindParam('supplierId', $supplierId);
+                    $statement->bindParam('tenantId', $tenantId);
+                    $statement->execute();
+                }
+            }
+        }
+        $connection->commit();
+        addSuccessMessage("Purchase added successfully");
+        header("Location: /purchase");
+    }
+}
+
+
 
 require_once '../includes/themeHeader.php';
 ?>
-<form action="" id="form">
+<form action="" method="post" id="form">
     <div class="container-fluid">
         <a href="/purchase" class="btn btn-primary"><i class="fas fa-fw fa-arrow-left"></i> View Purchases</a>
         <div class="card mt-2 shadow-lg">
@@ -57,7 +139,7 @@ require_once '../includes/themeHeader.php';
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="date">Date</label>
-                                <input type="date" id="date" name="date" class="form-control" required>
+                                <input type="date" id="date" name="createdAt" class="form-control" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="supplier">Supplier</label> <sup><button type="button" id="showSupplierBtn" class="border-0 d-inline p-0 bg-white text-info"><i class="fas fa-fw fa-info"></i></button></sup>

@@ -42,7 +42,8 @@ require_once '../includes/themeHeader.php';
                             <th scope="col">Supplier Name</th>
                             <th scope="col">VAT</th>
                             <th scope="col">Discount</th>
-                            <th scope="col">Total</th>
+                            <th scope="col">Gross Total</th>
+                            <th scope="col">Net Total</th>
                             <th scope="col">Remarks</th>
                             <th scope="col">Added By</th>
                             <th scope="col">Created At</th>
