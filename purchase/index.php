@@ -21,7 +21,7 @@ function getAllPurchase()
 }
 
 // get all suppliers
-$suppliers = getAllPurchase();
+$purchases = getAllPurchase();
 
 require_once '../includes/themeHeader.php';
 ?>
@@ -53,42 +53,38 @@ require_once '../includes/themeHeader.php';
                     <tbody>
                         <?php
                         $sn = 0;
-                        foreach ($suppliers as $supplier) :
+                        foreach ($purchases as $purchase) :
                         ?>
                             <tr>
                                 <td scope="row">
                                     <?= ++$sn ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['SupplierName'] ?>
+                                    <?= $purchase['SupplierName'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['Vat'] ?>
+                                    <?= $purchase['Vat'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['Discount'] ?>
+                                    <?= $purchase['Discount'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['GrossTotal'] ?>
+                                    <?= $purchase['GrossTotal'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['NetTotal'] ?>
+                                    <?= $purchase['NetTotal'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['Remarks'] ?>
+                                    <?= $purchase['Remarks'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['FirstName'] . " " . $supplier['LastName'] ?>
+                                    <?= $purchase['FirstName'] . " " . $purchase['LastName'] ?>
                                 </td>
                                 <td>
-                                    <?= $supplier['CreatedAt'] ?>
+                                    <?= $purchase['CreatedAt'] ?>
                                 </td>
                                 <td>
-                                    <a href="/supplier/edit.php?id=<?= $supplier['Id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-fw fa-edit"></i> Edit</a>
-                                    <form id="deleteForm" method="post" action="/supplier/delete.php" class="d-inline">
-                                        <input type="hidden" name="id" value="<?= $supplier['Id'] ?>" />
-                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i> Delete</button>
-                                    </form>
+                                    <a href="/purchase/details.php?id=<?= $purchase['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-info"></i> Details</a>
                                 </td>
                             </tr>
                         <?php
