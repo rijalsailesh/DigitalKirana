@@ -60,7 +60,7 @@ function checkDuplicateProductCode($productCode)
     $statement->bindParam('productCode', $productCode, PDO::PARAM_STR);
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
     $statement->execute();
-    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    $result = $statement->rowCount();
     return $result;
 }
 
@@ -79,10 +79,11 @@ if (isPost()) {
     $maximumQuantity = $_POST['maximumQuantity'];
     $minimumQuantity = $_POST['minimumQuantity'];
 
+
     // check duplicate product code
     $duplicateProductCode = checkDuplicateProductCode($productCode);
 
-    if (count($duplicateProductCode) > 0 && $duplicateProductCode['Id'] != $productId) {
+    if ($duplicateProductCode > 0 && $duplicateProductCode['Id'] != $productId) {
         AddErrorMessage("Product code already exists");
         header("Location: /product/edit.php?id=" . $productId);
         exit();
