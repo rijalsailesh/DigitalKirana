@@ -186,6 +186,7 @@ require_once '../includes/themeHeader.php';
     </div>
 </div>
 
+
 <!-- template for printing -->
 <template id="printTemplate">
     <div class="border mb-3 p-3">

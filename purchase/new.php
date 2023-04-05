@@ -72,6 +72,16 @@ if (isPost()) {
     $statement->execute();
 
     $purchaseId = $connection->lastInsertId();
+	
+  function updateProductQuantity($productId, $quantity)
+			{
+				$connection = ConnectionHelper::getConnection();
+				$query = "update product set Quantity = Quantity + :quantity where Id = :productId";
+				$statement = $connection->prepare($query);
+				$statement->bindParam('quantity', $quantity);
+				$statement->bindParam('productId', $productId);
+				$statement->execute();
+			}
 
     if ($purchaseId > 0) {
         //inserting into purchase_details table
@@ -95,15 +105,7 @@ if (isPost()) {
             if ($result > 0) {
 
                 //updating product quantity
-                function updateProductQuantity($productId, $quantity)
-                {
-                    $connection = ConnectionHelper::getConnection();
-                    $query = "update product set Quantity = Quantity + :quantity where Id = :productId";
-                    $statement = $connection->prepare($query);
-                    $statement->bindParam('quantity', $quantity);
-                    $statement->bindParam('productId', $productId);
-                    $statement->execute();
-                }
+              
                 updateProductQuantity($productIds[$i], $quantities[$i]);
 
                 //adding productId, supplierId and tenantId to product_supplier table
@@ -293,8 +295,8 @@ require_once '../includes/themeHeader.php';
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Save</button>
+            <div class="card-footer d-none" id="cardFooter">
+                <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Make Purchase</button>
             </div>
         </div>
     </div>
@@ -392,7 +394,7 @@ require_once '../includes/themeHeader.php';
 
         //get data for supplier from database and show in modal
         function getSupplierById(id) {
-            const supplierDetails = fetch(`http://digitalkirana/api/getSupplier.php?id=${supplier.value}`)
+            const supplierDetails = fetch(`http://digital-kirana/api/getSupplier.php?id=${supplier.value}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('modal_supplierName').value = data.SupplierName;
@@ -420,7 +422,7 @@ require_once '../includes/themeHeader.php';
 
     //get product from database when productCode is entered
     const productCode = document.querySelector("#productCode");
-    productCode.addEventListener("keyup", () => {
+    productCode.addEventListener("change", () => {
         const product = document.querySelector("#product");
         const rate = document.querySelector("#rate");
         const stock = document.querySelector("#stock");
@@ -433,7 +435,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?code=${productCode.value}`)
+        const productDetails = fetch(`http://digital-kirana/api/getProduct.php?code=${productCode.value}`)
             .then(response => response.json())
             .then(data => {
                 product.value = data.Id;
@@ -464,7 +466,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?id=${product.value}`)
+        const productDetails = fetch(`http://digital-kirana/api/getProduct.php?id=${product.value}`)
             .then(response => response.json())
             .then(data => {
                 productCode.value = data.ProductCode;
@@ -479,6 +481,8 @@ require_once '../includes/themeHeader.php';
     });
 
     //calculate amount on rate change
+
+
     const rate = document.querySelector("#rate");
     rate.addEventListener("change", () => {
         const quantity = document.querySelector("#quantity");
@@ -526,6 +530,7 @@ require_once '../includes/themeHeader.php';
 
         //make productContainer visible
         document.querySelector('#productContainer').classList.add('d-block');
+        document.querySelector('#cardFooter').classList.add('d-block');
 
         //increase quantity if product and rate is same else add new row
         const rows = tableBody.querySelectorAll('tr');
