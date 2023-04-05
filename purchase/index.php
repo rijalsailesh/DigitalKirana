@@ -11,7 +11,7 @@ function getAllPurchase()
 {
     //get all suppliers by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select p.Id, s.SupplierName, p.Vat, p.Discount, p.GrossTotal, p.NetTotal, p.Remarks, u.FirstName, u.LastName ,p.CreatedAt from purchase p inner join user u on p.UserId  = u.Id inner join supplier s on p.SupplierId = s.Id where s.TenantId = :tenantId";
+    $query = "select p.Id, s.SupplierName, p.BillNumber, p.Vat, p.Discount, p.GrossTotal, p.NetTotal, p.Remarks, u.FirstName, u.LastName ,p.CreatedAt from purchase p inner join user u on p.UserId  = u.Id inner join supplier s on p.SupplierId = s.Id where s.TenantId = :tenantId";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
@@ -39,6 +39,7 @@ require_once '../includes/themeHeader.php';
                     <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">Bill Number</th>
                             <th scope="col">Supplier Name</th>
                             <th scope="col">VAT</th>
                             <th scope="col">Discount</th>
@@ -58,6 +59,9 @@ require_once '../includes/themeHeader.php';
                             <tr>
                                 <td scope="row">
                                     <?= ++$sn ?>
+                                </td>
+                                <td>
+                                    <?= $purchase['BillNumber'] ?>
                                 </td>
                                 <td>
                                     <?= $purchase['SupplierName'] ?>

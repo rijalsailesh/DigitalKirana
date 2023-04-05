@@ -26,7 +26,7 @@ function getAllPurchasedProducts($purchaseId)
 function getPurchase($purchaseId)
 {
     $connection = ConnectionHelper::getConnection();
-    $query = "select s.SupplierName, s.Email, s.Phone, s.Address, p.Vat, p.Discount, p.BillNumber, p.GrossTotal, p.NetTotal, p.Remarks, p.CreatedAt from purchase p inner join supplier s on p.SupplierId = s.Id where p.Id = :purchaseId";
+    $query = "select s.SupplierName, s.Email, s.Phone, s.Address, p.Vat, p.Discount, p.BillNumber, p.GrossTotal, p.NetTotal, p.Remarks, p.CreatedAt, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from purchase p inner join supplier s on p.SupplierId = s.Id inner join Tenants t on p.TenantId = t.Id where p.Id = :purchaseId";
     $statement = $connection->prepare($query);
     $statement->bindParam('purchaseId', $purchaseId, PDO::PARAM_INT);
     $statement->execute();
@@ -43,12 +43,19 @@ $purchase = getPurchase($purchaseId);
 require_once '../includes/themeHeader.php';
 ?>
 <div class="container-fluid ">
-    <a href="/purchase" class="btn btn-primary"><i class="fas fa-fw fa-arrow-left"></i> View Purchase</a>
+    <div class="row">
+        <div class="col-6">
+            <a href="/purchase" class="btn btn-primary"><i class="fas fa-fw fa-arrow-left"></i> View Purchase</a>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-secondary float-right" id="printBtn"><i class="fas fa-fw fa-print"></i> Print</button>
+        </div>
+    </div>
     <div class="card mt-2">
         <div class="card-header bg-primary text-white ">
             <h4 class="card-title">Purchase Details</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-white" id="printableArea">
             <div class="card shadow-lg">
                 <div class="card-header">
                     <h6 class="card-title text-primary">Products</h6>
@@ -178,6 +185,66 @@ require_once '../includes/themeHeader.php';
 
     </div>
 </div>
+
+<!-- template for printing -->
+<template id="printTemplate">
+    <div class="border mb-3 p-3">
+        <div class="row d-flex align-items-center">
+            <div class="col-12 mb-4">
+                <div class="text-center mb-3">
+                    <?php
+                    if ($purchase['LogoUrl'] != '') :
+                    ?>
+                        <img src="/assets/imgs/logos/<?= $purchase['LogoUrl'] ?>" alt="" width="70" class="rounded-circle border border-4">
+                    <?php
+                    endif;
+                    ?>
+                </div>
+                <h2 class="text-primary text-center mb-3"><?= $purchase['Name'] ?></h2>
+                <div class="row">
+                    <div class="col-4">
+                        <p class="my-0 text-center"><span style="font-weight: 800;">Phone:</span> <?= $purchase['Phone'] ?></p>
+                    </div>
+                    <div class="col-4">
+                        <p class="my-0 text-center"><span style="font-weight: 800;">Address:</span> <?= $purchase['Address'] ?></p>
+                    </div>
+                    <div class="col-4">
+                        <p class="my-0 text-center"><span style="font-weight: 800;">Email:</span> <?= $purchase['Email'] ?></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    //print printable area on click
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => {
+        printSection();
+    });
+
+    function printSection() {
+
+        //add template to printable area
+        const printTemplate = document.querySelector('#printTemplate');
+        const printableArea = document.querySelector('#printableArea');
+        const printClone = printTemplate.content.cloneNode(true);
+        printableArea.prepend(printClone);
+
+        //print printable area
+        const printContents = printableArea.innerHTML;
+
+        const originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+
+        document.body.innerHTML = originalContents;
+        //remove clone from printable area
+    }
+</script>
 
 <?php
 require_once '../includes/themeFooter.php';
