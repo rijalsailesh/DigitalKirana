@@ -54,10 +54,12 @@ if (isPost()) {
     $vat = $_POST['vat'];
     $netTotal = $_POST['netTotal'];
     $remarks = $_POST['remarks'];
+    $tenderAmount = $_POST['tenderAmount'];
+    $returnAmount = $_POST['returnAmount'];
 
     //inerting into purchase table
     $connection = ConnectionHelper::getConnection();
-    $query = "insert into purchase (BillNumber, SupplierId, GrossTotal, Discount, Vat, NetTotal, Remarks, CreatedAt, UserId, TenantId) values (:billNumber, :supplierId, :grossTotal, :discount, :vat, :netTotal, :remarks, :createdAt, :userId, :tenantId)";
+    $query = "insert into purchase (BillNumber, SupplierId, GrossTotal, Discount, Vat, NetTotal, Remarks, CreatedAt, UserId, TenantId, TenderAmount, ReturnAmount) values (:billNumber, :supplierId, :grossTotal, :discount, :vat, :netTotal, :remarks, :createdAt, :userId, :tenantId, :tenderAmount, :returnAmount)";
     $statement = $connection->prepare($query);
     $statement->bindParam('billNumber', $billNumber);
     $statement->bindParam('createdAt', $createdAt);
@@ -69,19 +71,21 @@ if (isPost()) {
     $statement->bindParam('remarks', $remarks);
     $statement->bindParam('userId', $loggedInUserId);
     $statement->bindParam('tenantId', $tenantId);
+    $statement->bindParam('tenderAmount', $tenderAmount);
+    $statement->bindParam('returnAmount', $returnAmount);
     $statement->execute();
 
     $purchaseId = $connection->lastInsertId();
-	
-  function updateProductQuantity($productId, $quantity)
-			{
-				$connection = ConnectionHelper::getConnection();
-				$query = "update product set Quantity = Quantity + :quantity where Id = :productId";
-				$statement = $connection->prepare($query);
-				$statement->bindParam('quantity', $quantity);
-				$statement->bindParam('productId', $productId);
-				$statement->execute();
-			}
+
+    function updateProductQuantity($productId, $quantity)
+    {
+        $connection = ConnectionHelper::getConnection();
+        $query = "update product set Quantity = Quantity + :quantity where Id = :productId";
+        $statement = $connection->prepare($query);
+        $statement->bindParam('quantity', $quantity);
+        $statement->bindParam('productId', $productId);
+        $statement->execute();
+    }
 
     if ($purchaseId > 0) {
         //inserting into purchase_details table
@@ -105,7 +109,7 @@ if (isPost()) {
             if ($result > 0) {
 
                 //updating product quantity
-              
+
                 updateProductQuantity($productIds[$i], $quantities[$i]);
 
                 //adding productId, supplierId and tenantId to product_supplier table
@@ -217,7 +221,7 @@ require_once '../includes/themeHeader.php';
                                 <input type="number" id="amount" readonly class="form-control">
                             </div>
                             <div class="col-md-2 align-item-end">
-                                <label for=""></label>
+                                <label for="addProductBtn">&nbsp;</label>
                                 <button type="button" id="addProductBtn" class="btn btn-primary btn-block"><i class="fas fa-fw fa-plus"></i> Add</button>
                             </div>
                         </div>
@@ -245,19 +249,19 @@ require_once '../includes/themeHeader.php';
                                                 <label for="grossAmount">Gross Total</label>
                                             </div>
                                             <div class="col-8 mb-3">
-                                                <input type="number" readonly name="grossTotal" id="grossTotal" class="form-control">
+                                                <input type="number" min="0" readonly name="grossTotal" id="grossTotal" class="form-control">
                                             </div>
                                             <div class="col-4 mb-3">
                                                 <label for="discount">Discount(%)</label>
                                             </div>
                                             <div class="col-8 mb-3">
-                                                <input type="number" id="discount" value="0" name="discount" class="form-control">
+                                                <input type="number" min="0" id="discount" value="0" name="discount" class="form-control">
                                             </div>
                                             <div class="col-4 mb-3">
                                                 <label for="vat">Vat(%)</label>
                                             </div>
                                             <div class="col-8 mb-3">
-                                                <input type="number" id="vat" value="0" name="vat" class="form-control">
+                                                <input type="number" min="0" id="vat" value="0" name="vat" class="form-control">
                                             </div>
 
 
@@ -269,19 +273,19 @@ require_once '../includes/themeHeader.php';
                                                 <label for="netTotal">Net Total</label>
                                             </div>
                                             <div class="col-8 mb-3">
-                                                <input type="number" readonly id="netTotal" name="netTotal" class="form-control">
+                                                <input type="number" min="0" readonly id="netTotal" name="netTotal" class="form-control">
                                             </div>
                                             <div class="col-4 mb-3">
                                                 <label for="tenderAmount">Tender Amount</label>
                                             </div>
                                             <div class="col-8 mb-3">
-                                                <input type="number" value="0" id="tenderAmount" class="form-control">
+                                                <input type="number" min="0" value="0" id="tenderAmount" class="form-control" name="tenderAmount">
                                             </div>
                                             <div class="col-4 mb-3">
                                                 <label for="returnAmount">Return Amount</label>
                                             </div>
                                             <div class="col-8">
-                                                <input type="number" readonly id="returnAmount" class="form-control">
+                                                <input type="number" min="0" readonly id="returnAmount" class="form-control" name="returnAmount">
                                             </div>
                                         </div>
                                     </div>
@@ -394,7 +398,7 @@ require_once '../includes/themeHeader.php';
 
         //get data for supplier from database and show in modal
         function getSupplierById(id) {
-            const supplierDetails = fetch(`http://digital-kirana/api/getSupplier.php?id=${supplier.value}`)
+            const supplierDetails = fetch(`http://digitalkirana/api/getSupplier.php?id=${supplier.value}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('modal_supplierName').value = data.SupplierName;
@@ -435,7 +439,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digital-kirana/api/getProduct.php?code=${productCode.value}`)
+        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?code=${productCode.value}`)
             .then(response => response.json())
             .then(data => {
                 product.value = data.Id;
@@ -466,7 +470,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digital-kirana/api/getProduct.php?id=${product.value}`)
+        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?id=${product.value}`)
             .then(response => response.json())
             .then(data => {
                 productCode.value = data.ProductCode;
@@ -628,6 +632,13 @@ require_once '../includes/themeHeader.php';
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Please add product first!',
+            })
+            return false;
+        } else if (tenderAmount.value <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please add tender amount',
             })
             return false;
         }

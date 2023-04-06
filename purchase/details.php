@@ -26,7 +26,7 @@ function getAllPurchasedProducts($purchaseId)
 function getPurchase($purchaseId)
 {
     $connection = ConnectionHelper::getConnection();
-    $query = "select s.SupplierName, s.Email, s.Phone, s.Address, p.Vat, p.Discount, p.BillNumber, p.GrossTotal, p.NetTotal, p.Remarks, p.CreatedAt, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from purchase p inner join supplier s on p.SupplierId = s.Id inner join Tenants t on p.TenantId = t.Id where p.Id = :purchaseId";
+    $query = "select s.SupplierName, s.Email, s.Phone, s.Address, p.Vat, p.Discount, p.BillNumber, p.GrossTotal, p.NetTotal, p.Remarks, p.CreatedAt, p.TenderAmount, p.ReturnAmount, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from purchase p inner join supplier s on p.SupplierId = s.Id inner join Tenants t on p.TenantId = t.Id where p.Id = :purchaseId";
     $statement = $connection->prepare($query);
     $statement->bindParam('purchaseId', $purchaseId, PDO::PARAM_INT);
     $statement->execute();
@@ -141,6 +141,14 @@ require_once '../includes/themeHeader.php';
                                     <tr>
                                         <th scope="row">Net Total</th>
                                         <td><?= $purchase['NetTotal'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Tender Amount</th>
+                                        <td><?= $purchase['TenderAmount'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Return Amount</th>
+                                        <td><?= $purchase['ReturnAmount'] ?></td>
                                     </tr>
                                 </tbody>
                             </table>
