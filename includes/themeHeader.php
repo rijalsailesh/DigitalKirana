@@ -34,9 +34,7 @@ $tenant = getTenantById(getTenantId());
 
     <!-- Custom fonts for this template-->
     <link href="../assets/theme/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../assets/theme/css/sb-admin-2.min.css" rel="stylesheet">
@@ -81,14 +79,14 @@ $tenant = getTenantById(getTenantId());
             </div>
 
             <?php
-            if (isAdmin()):
-                ?>
+            if (isAdmin()) :
+            ?>
                 <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "user/") ? "active" : "" ?>">
                     <a class="nav-link" href="/user">
                         <i class="fas fa-fw fa-user"></i>
                         <span>User</span></a>
                 </li>
-                <?php
+            <?php
             endif;
             ?>
 
@@ -107,22 +105,16 @@ $tenant = getTenantById(getTenantId());
             <hr class="sidebar-divider">
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li
-                class="nav-item  <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "active" : "" ?>">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
+            <li class="nav-item  <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "active" : "" ?>">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Supplier / Customer</span>
                 </a>
-                <div id="collapseTwo"
-                    class="collapse <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "show" : "" ?>"
-                    aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "show" : "" ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Suppliers & Customers</h6>
-                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "supplier/") ? "active" : "" ?>"
-                            href="/supplier">Supplier</a>
-                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "customer/") ? "active" : "" ?>"
-                            href="/customer">Customer</a>
+                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "supplier/") ? "active" : "" ?>" href="/supplier">Supplier</a>
+                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "customer/") ? "active" : "" ?>" href="/customer">Customer</a>
                     </div>
                 </div>
             </li>
@@ -131,6 +123,26 @@ $tenant = getTenantById(getTenantId());
                 <a class=" nav-link" href="/purchase">
                     <i class="fas fa-fw fa-water"></i>
                     <span>Purchase</span></a>
+            </li>
+            <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "sales/") ? "active" : "" ?>">
+                <a class=" nav-link" href="/sales">
+                    <i class="fas fa-fw fa-water"></i>
+                    <span>Sales</span></a>
+            </li>
+
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Reports</span>
+                </a>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Reports</h6>
+                        <a class="collapse-item" href="/supplier">Product Supplier</a>
+                        <a class="collapse-item" href="/customer">Supplier Product</a>
+                    </div>
+                </div>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
@@ -259,15 +271,13 @@ $tenant = getTenantById(getTenantId());
 
                         <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
                                 <span class="badge badge-danger badge-counter">3+</span>
                             </a>
                             <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Alerts Center
                                 </h6>
@@ -310,22 +320,19 @@ $tenant = getTenantById(getTenantId());
 
                         <!-- Nav Item - Messages -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
                             <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="messagesDropdown">
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
                                     Message Center
                                 </h6>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/assets/theme/img/undraw_profile_1.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="/assets/theme/img/undraw_profile_1.svg" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div class="font-weight-bold">
@@ -336,8 +343,7 @@ $tenant = getTenantById(getTenantId());
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/assets/theme/img/undraw_profile_2.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="/assets/theme/img/undraw_profile_2.svg" alt="...">
                                         <div class="status-indicator"></div>
                                     </div>
                                     <div>
@@ -348,8 +354,7 @@ $tenant = getTenantById(getTenantId());
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/assets/theme/img/undraw_profile_3.svg"
-                                            alt="...">
+                                        <img class="rounded-circle" src="/assets/theme/img/undraw_profile_3.svg" alt="...">
                                         <div class="status-indicator bg-warning"></div>
                                     </div>
                                     <div>
@@ -360,8 +365,7 @@ $tenant = getTenantById(getTenantId());
                                 </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="...">
+                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
                                         <div class="status-indicator bg-success"></div>
                                     </div>
                                     <div>
@@ -378,18 +382,15 @@ $tenant = getTenantById(getTenantId());
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $loggedInUser['Role'] . ": " ?>
                                     <?= $loggedInUser['FirstName'] . " " . $loggedInUser['LastName'] ?>
                                 </span>
-                                <img class="img-profile rounded-circle"
-                                    src="/assets/imgs/logos/<?= $tenant['LogoUrl'] == null ? "default.png" : $tenant['LogoUrl'] ?>">
+                                <img class="img-profile rounded-circle" src="/assets/imgs/logos/<?= $tenant['LogoUrl'] == null ? "default.png" : $tenant['LogoUrl'] ?>">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="/profile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
@@ -413,8 +414,7 @@ $tenant = getTenantById(getTenantId());
                 </nav>
 
                 <!-- Logout Modal-->
-                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
