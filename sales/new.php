@@ -43,14 +43,13 @@ $loggedInUserId = getLoggedInUserId();
 function generateUniqueBillNumber()
 {
     $connection = ConnectionHelper::getConnection();
-    //generate unique bill number for sales
-    $query = "select count(*) as count from sales where TenantId = :tenantId";
+    $query = "update auto_generated_number set Number = Number + 1 where TenantId = :tenantId; select * from auto_generated_number where TenantId = :tenantId";
     $statement = $connection->prepare($query);
-    $statement->bindParam('tenantId', $tenantId);
+    $tenantId = getTenantId();
+    $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
     $statement->execute();
-    $result = $statement->fetch(PDO::FETCH_ASSOC);
-    $billNumber = "S" . date("Ymd") . str_pad($result['count'] + 1, 4, "0", STR_PAD_LEFT);
-    return $billNumber;
+    $result = $statement->columnCount();
+    return $result['Number'];
 }
 
 $connection = ConnectionHelper::getConnection();
