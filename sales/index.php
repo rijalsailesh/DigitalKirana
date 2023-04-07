@@ -101,7 +101,7 @@ require_once '../includes/themeHeader.php';
                     </div>
                     <div class="col-2">
                         <label for="customer">Supplier</label>
-                        <select name="customerId" id="customer" class="form-control">
+                        <select name="customerId" id="customer" class="singleSelect form-control">
                             <option value="">Select Customer</option>
                             <?php
                             foreach ($customers as $customer) :
@@ -116,7 +116,7 @@ require_once '../includes/themeHeader.php';
                     </div>
                     <div class="col-2">
                         <label for="userId">Supplier</label>
-                        <select name="userId" id="user" class="form-control">
+                        <select name="userId" id="user" class="singleSelect form-control">
                             <option value="">Select User</option>
                             <?php
                             foreach ($users as $user) :

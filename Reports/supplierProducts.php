@@ -49,7 +49,7 @@ require_once '../includes/themeHeader.php';
                     <div class="col-sm-4">
                         <div>
                             <label for="supplier">Search Supplier</label>
-                            <select name="supplierId" id="supplier" class="form-control">
+                            <select name="supplierId" id="supplier" class="singleSelect form-control">
                                 <option value="" selected>Select Supplier</option>
                                 <?php
                                 foreach ($suppliers as $supplier) :

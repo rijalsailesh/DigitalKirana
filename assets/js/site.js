@@ -21,3 +21,7 @@ deleteForm.forEach((form) => {
 })
 
 
+$(document).ready(function() {
+    $('.singleSelect').select2();
+});
+

@@ -48,10 +48,10 @@ require_once '../includes/themeHeader.php';
         <div class="card-body">
             <form action="" method="get">
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div>
                             <label for="product">Search Supplier</label>
-                            <select name="productId" id="product" class="form-control">
+                            <select name="productId" id="product" class="singleSelect form-control">
                                 <option value="" selected>Select Product</option>
                                 <?php
                                 foreach ($products as $product) :
@@ -63,10 +63,10 @@ require_once '../includes/themeHeader.php';
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-2">
                         <div>
                             <label for="filterBtn">&nbsp;</label>
-                            <button class="btn btn-primary d-block" id="filterBtn"><i class="fas fa-fw fa-filter"></i> </button>
+                            <button class="btn btn-primary btn-sm d-block" id="filterBtn"><i class="fas fa-fw fa-filter"></i> </button>
                         </div>
                     </div>
                 </div>
