@@ -131,16 +131,16 @@ $tenant = getTenantById(getTenantId());
             </li>
 
 
-            <li class="nav-item">
+            <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "active" : "" ?>">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Reports</span>
                 </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseThree" class="collapse <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "show" : "" ?>" aria-labelledby=" headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Reports</h6>
-                        <a class="collapse-item" href="/supplier">Product Supplier</a>
-                        <a class="collapse-item" href="/customer">Supplier Product</a>
+                        <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/productSuppliers.php") ? "active" : "" ?>" href=" /reports/productSuppliers.php">Product Supplier</a>
+                        <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/supplierProducts.php") ? "active" : "" ?>" href="/reports/supplierProducts.php">Supplier Product</a>
                     </div>
                 </div>
             </li>
