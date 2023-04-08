@@ -74,7 +74,7 @@ if (isPost()) {
     $connection = ConnectionHelper::getConnection();
     $query = "insert into sales (BillNumber, CustomerId, GrossTotal, Discount, Vat, NetTotal, Remarks, CreatedAt, UserId, TenantId, TenderAmount, ReturnAmount, CustomerName) values (:billNumber, :customerId, :grossTotal, :discount, :vat, :netTotal, :remarks, :createdAt, :userId, :tenantId, :tenderAmount, :returnAmount, :customerName)";
     $statement = $connection->prepare($query);
-    $billNumber = generateUniqueBillNumber();
+    $billNumber = 1;
     $statement->bindParam('billNumber', $billNumber);
     $statement->bindParam('createdAt', $createdAt);
     $statement->bindParam('customerId', $customerId);
