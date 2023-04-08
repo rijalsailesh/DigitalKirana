@@ -83,7 +83,7 @@ if (isPost()) {
     // check duplicate product code
     $duplicateProductCode = checkDuplicateProductCode($productCode);
 
-    if ($duplicateProductCode > 0 && $duplicateProductCode['Id'] != $productId) {
+    if ($duplicateProductCode > 0 && $product['ProductCode'] != $productCode) {
         AddErrorMessage("Product code already exists");
         header("Location: /product/edit.php?id=" . $productId);
         exit();
