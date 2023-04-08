@@ -7,21 +7,24 @@ if (!checkAuth()) {
     header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
 }
 
-function getAllCustomers()
+$search = getParam('search');
+
+function getAllCustomers($search)
 {
     //get all customers by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select c.Id, c.CustomerName, c.CreatedAt, c.Email, c.Address, c.Phone ,u.FirstName, u.LastName from customer c inner join user u on c.UserId = u.Id where c.TenantId = :tenantId";
+    $query = "select c.Id, c.CustomerName, c.CreatedAt, c.Email, c.Address, c.Phone ,u.FirstName, u.LastName from customer c inner join user u on c.UserId = u.Id where (:search is null) or (c.CustomerName like concat(:search, '%')) or (c.Email like concat(:search, '%')) or (c.Address like concat(:search, '%')) or (c.Phone like concat(:search, '%')) and c.TenantId = :tenantId";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
+    $statement->bindParam('search', $search, PDO::PARAM_STR);
     $statement->execute();
     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
 
 // get all customers
-$customers = getAllCustomers();
+$customers = getAllCustomers($search);
 
 require_once '../includes/themeHeader.php';
 ?>
@@ -33,6 +36,20 @@ require_once '../includes/themeHeader.php';
             <h4 class="card-title text-light">List of Customers</h4>
         </div>
         <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <form method="get" action="">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by name" value="<?= $search ?>" />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-fw fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- line -->
+            <hr class="sidebar-divider" />
             <?php renderMessages(); ?>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -51,8 +68,8 @@ require_once '../includes/themeHeader.php';
                     <tbody>
                         <?php
                         $sn = 0;
-                        foreach ($customers as $customer):
-                            ?>
+                        foreach ($customers as $customer) :
+                        ?>
                             <tr>
                                 <td scope="row">
                                     <?= ++$sn ?>
@@ -76,16 +93,14 @@ require_once '../includes/themeHeader.php';
                                     <?= $customer['CreatedAt'] ?>
                                 </td>
                                 <td>
-                                    <a href="/customer/edit.php?id=<?= $customer['Id'] ?>" class="btn btn-sm btn-primary"><i
-                                            class="fas fa-fw fa-edit"></i> Edit</a>
+                                    <a href="/customer/edit.php?id=<?= $customer['Id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-fw fa-edit"></i> Edit</a>
                                     <form id="deleteForm" method="post" action="/customer/delete.php" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $customer['Id'] ?>" />
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="fas fa-fw fa-trash"></i> Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i> Delete</button>
                                     </form>
                                 </td>
                             </tr>
-                            <?php
+                        <?php
                         endforeach;
                         ?>
                     </tbody>

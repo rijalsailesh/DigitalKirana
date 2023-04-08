@@ -7,21 +7,24 @@ if (!checkAuth()) {
     header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
 }
 
-function getAllCategories()
+$search = getParam('search');
+
+function getAllCategories($search)
 {
     //get all users by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select c.Id, c.CategoryName, c.CreatedAt, c.Description, u.FirstName, u.LastName from category c inner join user u on c.UserId = u.Id where c.TenantId = :tenantId";
+    $query = "select c.Id, c.CategoryName, c.CreatedAt, c.Description, u.FirstName, u.LastName from category c inner join user u on c.UserId = u.Id where ((:search is null) or (c.CategoryName like concat(:search, '%')) or (c.Description like concat(:search, '%'))) and c.TenantId = :tenantId";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
+    $statement->bindParam('search', $search, PDO::PARAM_STR);
     $statement->execute();
     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
 
 // get all categories
-$categories = getAllCategories();
+$categories = getAllCategories($search);
 
 require_once '../includes/themeHeader.php';
 ?>
@@ -33,6 +36,22 @@ require_once '../includes/themeHeader.php';
             <h4 class="card-title text-light">List of Categories</h4>
         </div>
         <div class="card-body">
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <form method="get" action="">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by name or description" value="<?= $search ?>" />
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-fw fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- line -->
+            <hr class="sidebar-divider" />
+
             <?php renderMessages(); ?>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -49,8 +68,8 @@ require_once '../includes/themeHeader.php';
                     <tbody>
                         <?php
                         $sn = 0;
-                        foreach ($categories as $category):
-                            ?>
+                        foreach ($categories as $category) :
+                        ?>
                             <tr>
                                 <td scope="row">
                                     <?= ++$sn ?>
@@ -68,16 +87,14 @@ require_once '../includes/themeHeader.php';
                                     <?= $category['CreatedAt'] ?>
                                 </td>
                                 <td>
-                                    <a href="/category/edit.php?id=<?= $category['Id'] ?>" class="btn btn-sm btn-primary"><i
-                                            class="fas fa-fw fa-edit"></i> Edit</a>
+                                    <a href="/category/edit.php?id=<?= $category['Id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-fw fa-edit"></i> Edit</a>
                                     <form id="deleteForm" method="post" action="/category/delete.php" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $category['Id'] ?>" />
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="fas fa-fw fa-trash"></i> Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-fw fa-trash"></i> Delete</button>
                                     </form>
                                 </td>
                             </tr>
-                            <?php
+                        <?php
                         endforeach;
                         ?>
                     </tbody>
