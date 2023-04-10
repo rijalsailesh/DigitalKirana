@@ -124,19 +124,19 @@ $tenant = getTenantById(getTenantId());
 
             <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "purchase/") ? "active" : "" ?>">
                 <a class=" nav-link" href="/purchase">
-                    <i class="fas fa-fw fa-water"></i>
+                    <i class="fas fa-fw fa-cart-plus"></i>
                     <span>Purchase</span></a>
             </li>
             <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "sales/") ? "active" : "" ?>">
                 <a class=" nav-link" href="/sales">
-                    <i class="fas fa-fw fa-water"></i>
+                    <i class="fas fa-fw fa-hand-holding"></i>
                     <span>Sales</span></a>
             </li>
 
 
             <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "active" : "" ?>">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                    <i class="fas fa-fw fa-users"></i>
+                    <i class="fas fa-fw fa-file"></i>
                     <span>Reports</span>
                 </a>
                 <div id="collapseThree" class="collapse <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "show" : "" ?>" aria-labelledby=" headingTwo" data-parent="#accordionSidebar">
@@ -144,6 +144,7 @@ $tenant = getTenantById(getTenantId());
                         <h6 class="collapse-header">Reports</h6>
                         <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/productSuppliers.php") ? "active" : "" ?>" href=" /reports/productSuppliers.php">Product Supplier</a>
                         <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/supplierProducts.php") ? "active" : "" ?>" href="/reports/supplierProducts.php">Supplier Product</a>
+                        <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/stock.php") ? "active" : "" ?>" href="/reports/stock.php">Stock</a>
                     </div>
                 </div>
             </li>

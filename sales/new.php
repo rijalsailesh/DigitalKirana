@@ -43,13 +43,13 @@ $loggedInUserId = getLoggedInUserId();
 function generateUniqueBillNumber()
 {
     $connection = ConnectionHelper::getConnection();
-    $query = "update auto_generated_number set Number = Number + 1 where TenantId = :tenantId; select * from auto_generated_number where TenantId = :tenantId";
+    $query = "select Number + 1 as Num from auto_generated_number where TenantId = :tenantId; update auto_generated_number set Number = Number + 1 where TenantId = :tenantId;";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
     $statement->execute();
-    $result = $statement->columnCount();
-    return $result['Number'];
+    $result = $statement->fetch();
+    return $result['Num'];
 }
 
 $connection = ConnectionHelper::getConnection();
@@ -74,7 +74,7 @@ if (isPost()) {
     $connection = ConnectionHelper::getConnection();
     $query = "insert into sales (BillNumber, CustomerId, GrossTotal, Discount, Vat, NetTotal, Remarks, CreatedAt, UserId, TenantId, TenderAmount, ReturnAmount, CustomerName) values (:billNumber, :customerId, :grossTotal, :discount, :vat, :netTotal, :remarks, :createdAt, :userId, :tenantId, :tenderAmount, :returnAmount, :customerName)";
     $statement = $connection->prepare($query);
-    $billNumber = 1;
+    $billNumber = generateUniqueBillNumber();
     $statement->bindParam('billNumber', $billNumber);
     $statement->bindParam('createdAt', $createdAt);
     $statement->bindParam('customerId', $customerId);
@@ -293,7 +293,7 @@ require_once '../includes/themeHeader.php';
                 </div>
             </div>
             <div class="card-footer d-none" id="cardFooter">
-                <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Make Purchase</button>
+                <button type="submit" id="submitBtn" class="btn btn-primary btn-block">Make Sales</button>
             </div>
         </div>
     </div>
