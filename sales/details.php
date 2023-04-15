@@ -43,7 +43,7 @@ $sales = getSales($salesId);
 require_once '../includes/themeHeader.php';
 ?>
 <div class="container-fluid ">
-    <div class="row">
+    <div class="row non-printable">
         <div class="col-6">
             <a href="/sales" class="btn btn-primary"><i class="fas fa-fw fa-arrow-left"></i> View Sales</a>
         </div>
@@ -52,10 +52,41 @@ require_once '../includes/themeHeader.php';
         </div>
     </div>
     <div class="card mt-2">
-        <div class="card-header bg-primary text-white ">
+        <div class="card-header bg-primary text-white non-printable">
             <h4 class="card-title">Sales Details</h4>
         </div>
-        <div class="card-body bg-white" id="printableArea">
+        <div class="card-body bg-white printable">
+            <!-- template for printing -->
+            <div class="d-none printable">
+                <div class="border mb-3 p-3">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-12 mb-4">
+                            <div class="text-center mb-3">
+                                <?php
+                                if ($sales['LogoUrl'] != '') :
+                                ?>
+                                    <img src="/assets/imgs/logos/<?= $sales['LogoUrl'] ?>" alt="" width="70" class="rounded-circle border border-4">
+                                <?php
+                                endif;
+                                ?>
+                            </div>
+                            <h2 class="text-primary text-center mb-3"><?= $sales['Name'] ?></h2>
+                            <div class="row">
+                                <div class="col-4">
+                                    <p class="my-0 text-center"><span style="font-weight: 800;">Phone:</span> <?= $sales['Phone'] ?></p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="my-0 text-center"><span style="font-weight: 800;">Address:</span> <?= $sales['Address'] ?></p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="my-0 text-center"><span style="font-weight: 800;">Email:</span> <?= $sales['Email'] ?></p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="card shadow-lg">
                 <div class="card-header">
                     <h6 class="card-title text-primary">Products</h6>
@@ -195,37 +226,22 @@ require_once '../includes/themeHeader.php';
 </div>
 
 
-<!-- template for printing -->
-<template id="printTemplate">
-    <div class="border mb-3 p-3">
-        <div class="row d-flex align-items-center">
-            <div class="col-12 mb-4">
-                <div class="text-center mb-3">
-                    <?php
-                    if ($sales['LogoUrl'] != '') :
-                    ?>
-                        <img src="/assets/imgs/logos/<?= $sales['LogoUrl'] ?>" alt="" width="70" class="rounded-circle border border-4">
-                    <?php
-                    endif;
-                    ?>
-                </div>
-                <h2 class="text-primary text-center mb-3"><?= $sales['Name'] ?></h2>
-                <div class="row">
-                    <div class="col-4">
-                        <p class="my-0 text-center"><span style="font-weight: 800;">Phone:</span> <?= $sales['Phone'] ?></p>
-                    </div>
-                    <div class="col-4">
-                        <p class="my-0 text-center"><span style="font-weight: 800;">Address:</span> <?= $sales['Address'] ?></p>
-                    </div>
-                    <div class="col-4">
-                        <p class="my-0 text-center"><span style="font-weight: 800;">Email:</span> <?= $sales['Email'] ?></p>
-                    </div>
+<style>
+    @media print {
+        .printable {
+            display: block !important;
+        }
 
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
+        .non-printable {
+            display: none !important;
+        }
+
+        #headerPrint {
+            display: block !important;
+        }
+    }
+</style>
+
 
 <script>
     //print printable area on click
@@ -235,23 +251,7 @@ require_once '../includes/themeHeader.php';
     });
 
     function printSection() {
-
-        //add template to printable area
-        const printTemplate = document.querySelector('#printTemplate');
-        const printableArea = document.querySelector('#printableArea');
-        const printClone = printTemplate.content.cloneNode(true);
-        printableArea.prepend(printClone);
-
-        //print printable area
-        const printContents = printableArea.innerHTML;
-
-        const originalContents = document.body.innerHTML;
-
-        document.body.innerHTML = printContents;
         window.print();
-
-        document.body.innerHTML = originalContents;
-        //remove clone from printable area
     }
 </script>
 

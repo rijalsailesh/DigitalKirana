@@ -2,7 +2,7 @@
 <!-- End of Main Content -->
 
 <!-- Footer -->
-<footer class="sticky-footer bg-white">
+<footer class="sticky-footer bg-white non-printable">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
             <span>Copyright &copy; Digital Kirana 2023</span>
@@ -18,7 +18,7 @@
 <!-- End of Page Wrapper -->
 
 <!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
+<a class="scroll-to-top rounded non-printable" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
 

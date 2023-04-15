@@ -52,7 +52,7 @@ $tenant = getTenantById(getTenantId());
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion non-printable" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard.php">
@@ -180,7 +180,7 @@ $tenant = getTenantById(getTenantId());
                     </p>
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto non-printable">
 
                         <!-- Nav Item - Alerts -->
 
