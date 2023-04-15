@@ -13,8 +13,6 @@ $categoryId = getParam('categoryId', 0);
 $connection = ConnectionHelper::getConnection();
 //get by categoryId and productId
 $query = "select p.ProductCode, p.ProductName, p.Quantity, p.Description, c.CategoryName from product p inner join category c on p.CategoryId = c.Id where p.CategoryId = :categoryId or p.Id = :productId and p.TenantId = :tenantId";
-
-// $query = "select s.SupplierName, s.Email, s.Phone, s.Address from supplier_products sp inner join supplier s on s.Id = sp.SupplierId inner join product p on p.Id = sp.ProductId where sp.ProductId = :productId and sp.TenantId = :tenantId";
 $statement = $connection->prepare($query);
 $tenantId = getTenantId();
 $statement->bindParam('productId', $productId, PDO::PARAM_INT);
