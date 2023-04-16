@@ -124,7 +124,7 @@ require_once '../includes/themeHeader.php';
                 <?php
                 endif;
                 ?>
-                <a class="btn btn-info" href="/profile/editPersonalInfo.php"><i class="fas fa-fw fa-file"></i> My Sales</a>
+                <a class="btn btn-info" href="/profile/mySales.php"><i class="fas fa-fw fa-file"></i> My Sales</a>
             </div>
         </div>
     </form>
