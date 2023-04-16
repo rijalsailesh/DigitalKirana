@@ -93,62 +93,77 @@ $tenant = getTenantById(getTenantId());
             <?php
             endif;
             ?>
+            <?php
+            if (getLoggedInUserRole() == 'SalesPerson') :
+            ?>
+                <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "sales/") ? "active" : "" ?>">
+                    <a class=" nav-link" href="/sales">
+                        <i class="fas fa-fw fa-hand-holding"></i>
+                        <span>Sales</span></a>
+                </li>
+            <?php
+            else :
+            ?>
+                <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "category/") ? "active" : "" ?>">
+                    <a class=" nav-link" href="/category">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>Category</span></a>
+                </li>
 
-            <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "category/") ? "active" : "" ?>">
-                <a class=" nav-link" href="/category">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Category</span></a>
-            </li>
 
+                <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "product/") ? "active" : "" ?>">
+                    <a class=" nav-link" href="/product">
+                        <i class="fas fa-fw fa-fire"></i>
+                        <span>Product</span></a>
+                </li>
+                <hr class="sidebar-divider">
 
-            <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "product/") ? "active" : "" ?>">
-                <a class=" nav-link" href="/product">
-                    <i class="fas fa-fw fa-fire"></i>
-                    <span>Product</span></a>
-            </li>
-            <hr class="sidebar-divider">
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item  <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "active" : "" ?>">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Supplier / Customer</span>
-                </a>
-                <div id="collapseTwo" class="collapse <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "show" : "" ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Suppliers & Customers</h6>
-                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "supplier/") ? "active" : "" ?>" href="/supplier">Supplier</a>
-                        <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "customer/") ? "active" : "" ?>" href="/customer">Customer</a>
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item  <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "active" : "" ?>">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Supplier / Customer</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse <?= (strpos($_SERVER['REQUEST_URI'], "supplier/") || (strpos($_SERVER['REQUEST_URI'], "customer/"))) ? "show" : "" ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Suppliers & Customers</h6>
+                            <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "supplier/") ? "active" : "" ?>" href="/supplier">Supplier</a>
+                            <a class="collapse-item  <?= strpos($_SERVER['REQUEST_URI'], "customer/") ? "active" : "" ?>" href="/customer">Customer</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
 
-            <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "purchase/") ? "active" : "" ?>">
-                <a class=" nav-link" href="/purchase">
-                    <i class="fas fa-fw fa-cart-plus"></i>
-                    <span>Purchase</span></a>
-            </li>
-            <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "sales/") ? "active" : "" ?>">
-                <a class=" nav-link" href="/sales">
-                    <i class="fas fa-fw fa-hand-holding"></i>
-                    <span>Sales</span></a>
-            </li>
+                <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "purchase/") ? "active" : "" ?>">
+                    <a class=" nav-link" href="/purchase">
+                        <i class="fas fa-fw fa-cart-plus"></i>
+                        <span>Purchase</span></a>
+                </li>
+                <li class="nav-item  <?= strpos($_SERVER['REQUEST_URI'], "sales/") ? "active" : "" ?>">
+                    <a class=" nav-link" href="/sales">
+                        <i class="fas fa-fw fa-hand-holding"></i>
+                        <span>Sales</span></a>
+                </li>
 
 
-            <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "active" : "" ?>">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                    <i class="fas fa-fw fa-file"></i>
-                    <span>Reports</span>
-                </a>
-                <div id="collapseThree" class="collapse <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "show" : "" ?>" aria-labelledby=" headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Reports</h6>
-                        <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/productSuppliers.php") ? "active" : "" ?>" href=" /reports/productSuppliers.php">Product Supplier</a>
-                        <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/supplierProducts.php") ? "active" : "" ?>" href="/reports/supplierProducts.php">Supplier Product</a>
-                        <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/stock.php") ? "active" : "" ?>" href="/reports/stock.php">Stock</a>
+                <li class="nav-item <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "active" : "" ?>">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        <i class="fas fa-fw fa-file"></i>
+                        <span>Reports</span>
+                    </a>
+                    <div id="collapseThree" class="collapse <?= strpos($_SERVER['REQUEST_URI'], "reports/") ? "show" : "" ?>" aria-labelledby=" headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Reports</h6>
+                            <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/productSuppliers.php") ? "active" : "" ?>" href=" /reports/productSuppliers.php">Product Supplier</a>
+                            <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/supplierProducts.php") ? "active" : "" ?>" href="/reports/supplierProducts.php">Supplier Product</a>
+                            <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/stock.php") ? "active" : "" ?>" href="/reports/stock.php">Stock</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
+            <?php
+            endif;
+            ?>
+
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

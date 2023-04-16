@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
-require_once 'includes/authorize.php';
+require_once '../includes/authorize.php';
 
 
 

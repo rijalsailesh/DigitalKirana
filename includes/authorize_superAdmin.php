@@ -8,9 +8,6 @@ if (!checkAuth()) {
 
 $tenantId = getTenantId();
 
-//get role of current user
-$role = getLoggedInUserRole();
-
 
 if ($tenantId != null) {
     header("Location: /error/accessDenied.php");
