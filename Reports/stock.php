@@ -57,14 +57,21 @@ require_once '../includes/themeHeader.php';
 
 
 <div class="container-fluid">
-    <a href="/supplier/create.php" class="btn btn-primary"><i class="fas fa-fw fa-arrow-left"></i> Go Back</a>
+    <div class="row non-printable">
+        <div class="col-6">
+            <a href="/supplier/create.php" class="btn btn-primary"><i class="fas fa-fw fa-arrow-left"></i> Go Back</a>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-secondary float-right" id="printBtn"><i class="fas fa-fw fa-print"></i> Print</button>
+        </div>
+    </div>
     <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
             <h4 class="card-title text-light">Stock</h4>
         </div>
         <div class="card-body">
             <form action="" method="get">
-                <div class="row">
+                <div class="row non-printable">
                     <div class="col-sm-3">
                         <div>
                             <label for="product">Product</label>
@@ -104,7 +111,7 @@ require_once '../includes/themeHeader.php';
                 </div>
             </form>
             <!-- line -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider non-printable">
 
             <?php
             if ($result == null) :
@@ -155,6 +162,18 @@ require_once '../includes/themeHeader.php';
 
     </div>
 </div>
+
+<script>
+    //print printable area on click
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => {
+        printSection();
+    });
+
+    const printSection = () => {
+        window.print();
+    }
+</script>
 
 <?php
 require_once '../includes/themeFooter.php';

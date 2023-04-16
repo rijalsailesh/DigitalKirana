@@ -47,14 +47,21 @@ require_once '../includes/themeHeader.php';
 ?>
 
 <div class="container-fluid">
-    <a href="/user/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New User</a>
+    <div class="row non-printable">
+        <div class="col-6">
+            <a href="/user/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New User</a>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-secondary float-right" id="printBtn"><i class="fas fa-fw fa-print"></i> Print</button>
+        </div>
+    </div>
     <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
             <h4 class="card-title text-light">List of Users</h4>
         </div>
         <div class="card-body">
             <form action="">
-                <div class="row">
+                <div class="row non-printable">
                     <div class="col-2">
                         <label for="Name">Name</label>
                         <input type="text" value="<?= $name ?>" name="name" class="form-control">
@@ -86,7 +93,7 @@ require_once '../includes/themeHeader.php';
                 </div>
             </form>
             <!-- line -->
-            <hr class="sidebar-divider" />
+            <hr class="sidebar-divider non-printable" />
 
             <?php renderMessages(); ?>
             <div class="table-responsive">
@@ -103,7 +110,7 @@ require_once '../includes/themeHeader.php';
                             <th scope="col">Status</th>
                             <th scope="col">Role</th>
                             <th scope="col">Created Date</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" class="non-printable">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,7 +129,7 @@ require_once '../includes/themeHeader.php';
                                 <td><span class="<?= $user['Status'] ? "text-primary" : "text-dark" ?> fw-bolder" style="font-weight:700;"><?= $user['Status'] ? "Active" : "Inactive" ?></span></td>
                                 <td><?= $user['Role'] ?></td>
                                 <td><?= $user['CreatedAt'] ?></td>
-                                <td>
+                                <td class="non-printable">
                                     <form action="/user/toggleStatus.php" method="post" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $user['Id'] ?>">
                                         <input type="hidden" name="status" value="<?= $user['Status'] ?>">
@@ -146,6 +153,18 @@ require_once '../includes/themeHeader.php';
         </div>
     </div>
 </div>
+
+<script>
+    //print printable area on click
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => {
+        printSection();
+    });
+
+    const printSection = () => {
+        window.print();
+    }
+</script>
 
 <?php
 require_once '../includes/themeFooter.php';

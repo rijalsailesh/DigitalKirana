@@ -46,7 +46,14 @@ require_once '../includes/themeHeader.php';
 ?>
 
 <div class="container-fluid">
-    <a href="/product/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Product</a>
+    <div class="row non-printable">
+        <div class="col-6">
+            <a href="/product/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Product</a>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-secondary float-right" id="printBtn"><i class="fas fa-fw fa-print"></i> Print</button>
+        </div>
+    </div>
     <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
             <h4 class="card-title text-light">List of Products</h4>
@@ -54,7 +61,7 @@ require_once '../includes/themeHeader.php';
         <div class="card-body">
 
             <form action="">
-                <div class="row">
+                <div class="row non-printable">
                     <div class="col-3">
                         <label for="ProductName">Product Name / Code</label>
                         <input type="text" class="form-control" value="<?= $productName ?>" name="productName">
@@ -78,7 +85,7 @@ require_once '../includes/themeHeader.php';
                     </div>
                 </div>
             </form>
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider non-printable">
 
             <?php renderMessages(); ?>
             <div class="table-responsive">
@@ -94,7 +101,7 @@ require_once '../includes/themeHeader.php';
                             <th scope="col">Selling Price</th>
                             <th scope="col">Cost Price</th>
                             <th scope="col">Wholesale Price</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" class="non-printable">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -135,7 +142,7 @@ require_once '../includes/themeHeader.php';
                                 <td>
                                     <?= $product['WholesalePrice'] ?>
                                 </td>
-                                <td>
+                                <td class="non-printable">
                                     <a href="/product/edit.php?id=<?= $product['Id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-fw fa-edit"></i> Edit</a>
                                     <form id="deleteForm" method="post" action="/product/delete.php" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $product['Id'] ?>" />
@@ -153,6 +160,18 @@ require_once '../includes/themeHeader.php';
         </div>
     </div>
 </div>
+
+<script>
+    //print printable area on click
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => {
+        printSection();
+    });
+
+    const printSection = () => {
+        window.print();
+    }
+</script>
 
 <?php
 require_once '../includes/themeFooter.php';

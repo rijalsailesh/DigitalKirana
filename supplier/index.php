@@ -30,13 +30,20 @@ require_once '../includes/themeHeader.php';
 ?>
 
 <div class="container-fluid">
-    <a href="/supplier/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Supplier</a>
+    <div class="row non-printable">
+        <div class="col-6">
+            <a href="/supplier/create.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Supplier</a>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-secondary float-right" id="printBtn"><i class="fas fa-fw fa-print"></i> Print</button>
+        </div>
+    </div>
     <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
             <h4 class="card-title text-light">List of Suppliers</h4>
         </div>
         <div class="card-body">
-            <div class="row">
+            <div class="row non-printable">
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <form method="get" action="">
                         <div class="input-group">
@@ -49,7 +56,7 @@ require_once '../includes/themeHeader.php';
                 </div>
             </div>
             <!-- line -->
-            <hr class="sidebar-divider" />
+            <hr class="sidebar-divider non-printable" />
             <?php renderMessages(); ?>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
@@ -62,7 +69,7 @@ require_once '../includes/themeHeader.php';
                             <th scope="col">Address</th>
                             <th scope="col">Added By</th>
                             <th scope="col">Created At</th>
-                            <th scope="col">Action</th>
+                            <th scope="col" class="non-printable">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,7 +99,7 @@ require_once '../includes/themeHeader.php';
                                 <td>
                                     <?= $supplier['CreatedAt'] ?>
                                 </td>
-                                <td>
+                                <td class="non-printable">
                                     <a href="/supplier/edit.php?id=<?= $supplier['Id'] ?>" class="btn btn-sm btn-primary"><i class="fas fa-fw fa-edit"></i> Edit</a>
                                     <form id="deleteForm" method="post" action="/supplier/delete.php" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $supplier['Id'] ?>" />
@@ -110,6 +117,18 @@ require_once '../includes/themeHeader.php';
         </div>
     </div>
 </div>
+
+<script>
+    //print printable area on click
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => {
+        printSection();
+    });
+
+    const printSection = () => {
+        window.print();
+    }
+</script>
 
 <?php
 require_once '../includes/themeFooter.php';
