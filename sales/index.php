@@ -138,73 +138,100 @@ require_once '../includes/themeHeader.php';
             <!-- line -->
             <hr class="sidebar-divider">
             <?php renderMessages(); ?>
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Bill Number</th>
-                            <th scope="col">Supplier Name</th>
-                            <th scope="col">VAT</th>
-                            <th scope="col">Discount</th>
-                            <th scope="col">Gross Total</th>
-                            <th scope="col">Net Total</th>
-                            <th scope="col">Remarks</th>
-                            <th scope="col">Added By</th>
-                            <th scope="col">Created At</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sn = 0;
-                        foreach ($sales as $sale) :
-                        ?>
+            <?php
+            if (count($sales) > 0) :
+            ?>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
                             <tr>
-                                <td scope="row">
-                                    <?= ++$sn ?>
-                                </td>
-                                <td>
-                                    <?= $sale['BillNumber'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['CustomerName'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['Vat'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['Discount'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['GrossTotal'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['NetTotal'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['Remarks'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['FirstName'] . " " . $sale['LastName'] ?>
-                                </td>
-                                <td>
-                                    <?= $sale['CreatedAt'] ?>
-                                </td>
-                                <td>
-                                    <a href="/sales/details.php?id=<?= $sale['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-info"></i> Details</a>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">Bill Number</th>
+                                <th scope="col">Supplier Name</th>
+                                <th scope="col">VAT</th>
+                                <th scope="col">Discount</th>
+                                <th scope="col">Gross Total</th>
+                                <th scope="col">Net Total</th>
+                                <th scope="col">Remarks</th>
+                                <th scope="col">Added By</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        <?php
-                        endforeach;
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody id="tbody">
+                            <?php
+                            $sn = 0;
+                            foreach ($sales as $sale) :
+                            ?>
+                                <tr>
+                                    <td scope="row">
+                                        <?= ++$sn ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['BillNumber'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['CustomerName'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['Vat'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['Discount'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['GrossTotal'] ?>
+                                    </td>
+                                    <td class="netTotal">
+                                        <?= $sale['NetTotal'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['Remarks'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['FirstName'] . " " . $sale['LastName'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $sale['CreatedAt'] ?>
+                                    </td>
+                                    <td>
+                                        <a href="/sales/details.php?id=<?= $sale['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-info"></i> Details</a>
+                                    </td>
+                                </tr>
+                            <?php
+                            endforeach;
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            <?php
+            else :
+            ?>
+
+                <div class="alert alert-warning">
+                    <p class="text-center">💀 There are no sales in selected date.</p>
+                </div>
+
+            <?php
+            endif;
+            ?>
 
         </div>
     </div>
 </div>
+
+<script>
+    //finding total netTotal amount of purchase
+    let netTotal = document.querySelectorAll('.netTotal');
+    let totalNetTotal = 0;
+    netTotal.forEach((item) => {
+        totalNetTotal += parseFloat(item.innerHTML);
+    });
+    let tr = document.querySelector('#tbody').appendChild(document.createElement('tr'));
+    tr.classList.add('bg-primary', 'text-light');
+    tr.innerHTML = `<td colspan="6" class="text-left">Total</td><td id="totalNetTotal" class="text-right">${totalNetTotal.toFixed(2)}</td><td colspan="4"></td>`;
+</script>
 
 <?php
 require_once '../includes/themeFooter.php';

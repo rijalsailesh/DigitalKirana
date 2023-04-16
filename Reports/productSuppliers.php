@@ -78,7 +78,7 @@ require_once '../includes/themeHeader.php';
             if ($suppliers == null) :
             ?>
                 <div class="alert alert-warning">
-                    <p>💀 There are no products for the selected supplier.</p>
+                    <p class="text-center">💀 There are no products for the selected supplier.</p>
                 </div>
             <?php
             else :

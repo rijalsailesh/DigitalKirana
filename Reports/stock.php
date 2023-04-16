@@ -35,7 +35,8 @@ function getAllProducts()
     return $products;
 }
 
-function getAllCategories(){
+function getAllCategories()
+{
     $connection = ConnectionHelper::getConnection();
     $query = "select * from category where TenantId = :tenantId";
     $statement = $connection->prepare($query);
@@ -66,6 +67,7 @@ require_once '../includes/themeHeader.php';
                 <div class="row">
                     <div class="col-sm-3">
                         <div>
+                            <label for="product">Product</label>
                             <select name="productId" id="product" class="singleSelect form-control">
                                 <option value="" selected>Select Product</option>
                                 <?php
@@ -80,6 +82,7 @@ require_once '../includes/themeHeader.php';
                     </div>
                     <div class="col-sm-3">
                         <div>
+                            <label for="category">Category</label>
                             <select name="categoryId" id="category" class="singleSelect form-control">
                                 <option value="" selected>Select Category</option>
                                 <?php
@@ -94,6 +97,7 @@ require_once '../includes/themeHeader.php';
                     </div>
                     <div class="col-sm-2">
                         <div>
+                            <label for="filterBtn">&nbsp;</label>
                             <button class="btn btn-primary btn-sm d-block" id="filterBtn"><i class="fas fa-fw fa-filter"></i> </button>
                         </div>
                     </div>
@@ -106,7 +110,7 @@ require_once '../includes/themeHeader.php';
             if ($result == null) :
             ?>
                 <div class="alert alert-warning">
-                    <p>💀 There are no products for the selected supplier.</p>
+                    <p class="text-center">💀 There are no products for the selected supplier.</p>
                 </div>
             <?php
             else :

@@ -64,7 +64,7 @@ require_once '../includes/themeHeader.php';
                     <div class="col-sm-6">
                         <div>
                             <label for="filterBtn">&nbsp;</label>
-                            <button class="btn btn-primary d-block" id="filterBtn"><i class="fas fa-fw fa-filter"></i> </button>
+                            <button class="btn btn-sm btn-primary d-block" id="filterBtn"><i class="fas fa-fw fa-filter"></i> </button>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ require_once '../includes/themeHeader.php';
             if ($products == null) :
             ?>
                 <div class="alert alert-warning">
-                    <p>💀 There are no suppliers for the selected product.</p>
+                    <p class="text-center">💀 There are no suppliers for the selected product.</p>
                 </div>
             <?php
             else :
