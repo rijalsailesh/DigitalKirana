@@ -38,6 +38,7 @@ $tenant = getTenantById(getTenantId());
 
     <!-- Custom styles for this template-->
     <link href="../assets/theme/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="../assets/imgs/logo.png" type="image/x-icon">
 

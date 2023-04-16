@@ -71,14 +71,21 @@ require_once '../includes/themeHeader.php';
 ?>
 
 <div class="container-fluid">
-    <a href="/purchase/new.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Purchase</a>
+    <div class="row non-printable">
+        <div class="col-6">
+            <a href="/purchase/new.php" class="btn btn-primary"><i class="fas fa-fw fa-plus"></i> New Purchase</a>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-secondary float-right" id="printBtn"><i class="fas fa-fw fa-print"></i> Print</button>
+        </div>
+    </div>
     <div class="card mt-2 shadow-lg">
         <div class="card-header bg-primary">
             <h4 class="card-title text-light">List of Purchase</h4>
         </div>
         <div class="card-body">
             <form action="" method="get">
-                <div class="row mb-3">
+                <div class="row mb-3 non-printable">
                     <div class="col-2">
                         <label for="billNumber">Bill Number</label>
                         <input type="text" class="form-control" value="<?= $billNumber ?>" id="billNumber" name="billNumber">
@@ -128,7 +135,7 @@ require_once '../includes/themeHeader.php';
                 </div>
             </form>
             <!-- line -->
-            <hr class="sidebar-divider">
+            <hr class="sidebar-divider non-printable">
             <?php renderMessages(); ?>
             <?php
             if (count($purchases) > 0) :
@@ -147,7 +154,7 @@ require_once '../includes/themeHeader.php';
                                 <th scope="col">Remarks</th>
                                 <th scope="col">Added By</th>
                                 <th scope="col">Created At</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="non-printable">Action</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -186,7 +193,7 @@ require_once '../includes/themeHeader.php';
                                     <td>
                                         <?= $purchase['CreatedAt'] ?>
                                     </td>
-                                    <td>
+                                    <td class="non-printable">
                                         <a href="/purchase/details.php?id=<?= $purchase['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-info"></i> Details</a>
                                     </td>
                                 </tr>
@@ -220,6 +227,19 @@ require_once '../includes/themeHeader.php';
     let tr = document.querySelector('#tbody').appendChild(document.createElement('tr'));
     tr.classList.add('bg-primary', 'text-light');
     tr.innerHTML = `<td colspan="6" class="text-left">Total</td><td id="totalNetTotal" class="text-right">${totalNetTotal.toFixed(2)}</td><td colspan="4"></td>`;
+
+
+
+
+    //print printable area on click
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', () => {
+        printSection();
+    });
+
+    const printSection = () => {
+        window.print();
+    }
 </script>
 
 <?php
