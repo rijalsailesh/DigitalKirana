@@ -2,11 +2,8 @@
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 require_once '../constants/Role.php';
+require_once '../includes/authorize_user.php';
 
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
 
 $tenantId = getTenantId(); //getting tenant id from session
 $categoryId = getParam('id'); //getting categoryId from url
@@ -71,13 +68,11 @@ require_once '../includes/themeHeader.php';
                 <div class="row">
                     <div class="col-12 mb-4">
                         <label for="categoryName">Category Name</label>
-                        <input type="text" value="<?= $category['CategoryName'] ?>" name="categoryName"
-                            id="categoryName" class="form-control" placeholder="Category Name" required>
+                        <input type="text" value="<?= $category['CategoryName'] ?>" name="categoryName" id="categoryName" class="form-control" placeholder="Category Name" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="description">Description</label>
-                        <textarea type="text" name="description" id="description" class="form-control"
-                            placeholder="Description" rows="8"><?= $category['Description'] ?></textarea>
+                        <textarea type="text" name="description" id="description" class="form-control" placeholder="Description" rows="8"><?= $category['Description'] ?></textarea>
                     </div>
                 </div>
             </div>

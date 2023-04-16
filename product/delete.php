@@ -1,7 +1,7 @@
 <?php
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
-
+require_once '../includes/authorize_user.php';
 
 if (isPost()) {
     $categoryId = $_POST['id']; //getting product id

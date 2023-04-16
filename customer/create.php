@@ -2,11 +2,7 @@
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 require_once '../constants/Role.php';
-
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
+require_once '../includes/authorize_user.php';
 
 $tenantId = getTenantId(); //getting tenant id from session
 
@@ -57,8 +53,7 @@ require_once '../includes/themeHeader.php';
                 <div class="row">
                     <div class="col-12 mb-4">
                         <label for="customerName">Customer Name</label>
-                        <input type="text" name="customerName" id="customerName" class="form-control"
-                            placeholder="Customer Name" required>
+                        <input type="text" name="customerName" id="customerName" class="form-control" placeholder="Customer Name" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="phone">Phone</label>
@@ -70,8 +65,7 @@ require_once '../includes/themeHeader.php';
                     </div>
                     <div class="col-12 mb-4">
                         <label for="address">Address</label>
-                        <textarea name="address" id="address" class="form-control" placeholder="Address"
-                            rows="8"></textarea>
+                        <textarea name="address" id="address" class="form-control" placeholder="Address" rows="8"></textarea>
                     </div>
                 </div>
             </div>

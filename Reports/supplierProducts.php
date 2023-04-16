@@ -1,11 +1,8 @@
 <?php
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
+require_once '../includes/authorize_user.php';
 
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
 
 $supplierId = getParam('supplierId', 0);
 

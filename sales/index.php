@@ -1,11 +1,9 @@
 <?php
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
+require_once 'includes/authorize.php';
 
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
+
 
 $billNumber = getParam('billNumber');
 $fromDate = getParam('fromDate', date('Y-m-d'));

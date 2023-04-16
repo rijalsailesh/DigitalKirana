@@ -2,15 +2,8 @@
 require_once('includes/functions.php');
 require_once('includes/Connection.php');
 require_once('constants/TenantStatus.php');
+require_once('includes/authorize_superAdmin.php');
 
-//check authentication
-if (!checkAuth()) {
-    header("Location: /");
-} else {
-    if (getTenantId() != null) {
-        header("Location: /error/accessDenied.php");
-    }
-}
 
 $connection = ConnectionHelper::getConnection();
 

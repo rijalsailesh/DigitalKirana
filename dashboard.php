@@ -1,14 +1,9 @@
 <?php
 require_once 'includes/functions.php';
 require_once 'includes/Connection.php';
-//check authentication
-if (!checkAuth()) {
-    header("Location: /");
-} else {
-    if (getTenantId() == null) {
-        header("Location: /error/accessDenied.php");
-    }
-}
+require_once 'includes/authorize.php';
+
+
 //retrieve total sales for today
 $today = date("Y-m-d");
 function getTodaysTotalSales($today)

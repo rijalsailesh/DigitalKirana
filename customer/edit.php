@@ -2,11 +2,7 @@
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 require_once '../constants/Role.php';
-
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
+require_once '../includes/authorize_user.php';
 
 $tenantId = getTenantId(); //getting tenant id from session
 $customerId = getParam('id'); //getting customerId from url
@@ -74,23 +70,19 @@ require_once '../includes/themeHeader.php';
                 <div class="row">
                     <div class="col-12 mb-4">
                         <label for="customerName">Customer Name</label>
-                        <input type="text" name="customerName" id="customerName" class="form-control"
-                            placeholder="Customer Name" value="<?= $customer['CustomerName'] ?>" required>
+                        <input type="text" name="customerName" id="customerName" class="form-control" placeholder="Customer Name" value="<?= $customer['CustomerName'] ?>" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="phone">Phone</label>
-                        <input type="phone" name="phone" id="phone" class="form-control" placeholder="Phone"
-                            value="<?= $customer['Phone'] ?>" required>
+                        <input type="phone" name="phone" id="phone" class="form-control" placeholder="Phone" value="<?= $customer['Phone'] ?>" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" placeholder="Email"
-                            value="<?= $customer['Email'] ?>" required>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" value="<?= $customer['Email'] ?>" required>
                     </div>
                     <div class="col-12 mb-4">
                         <label for="address">Address</label>
-                        <textarea name="address" id="address" class="form-control" placeholder="Address"
-                            rows="8"><?= $customer['Address'] ?></textarea>
+                        <textarea name="address" id="address" class="form-control" placeholder="Address" rows="8"><?= $customer['Address'] ?></textarea>
                     </div>
                 </div>
             </div>

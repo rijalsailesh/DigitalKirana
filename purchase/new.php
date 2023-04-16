@@ -1,11 +1,7 @@
 <?php
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
-
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
+require_once '../includes/authorize_user.php';
 
 function getAllSuppliers()
 {

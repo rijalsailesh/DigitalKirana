@@ -2,17 +2,7 @@
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 require_once '../constants/Role.php';
-
-
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
-
-// check if user is admin
-if (!isAdmin()) {
-    header("Location: /error/accessDenied.php");
-}
+require_once '../includes/authorize_admin.php';
 
 $name = getParam('name');
 $email = getParam('email');

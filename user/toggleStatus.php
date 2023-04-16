@@ -1,6 +1,7 @@
 <?php
 require_once('../includes/functions.php');
 require_once('../includes/Connection.php');
+require_once '../includes/authorize_admin.php';
 
 if (isPost()) {
     $connection = ConnectionHelper::getConnection();
