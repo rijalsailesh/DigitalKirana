@@ -2,19 +2,7 @@
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 require_once '../constants/Role.php';
-
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
-
-// check if user is admin
-if (!isAdmin()) {
-    header("Location: /error/accessDenied.php");
-}
-
-
-
+require_once '../includes/authorize_admin.php';
 
 // get tenant id
 $userId = getLoggedInUserId();
@@ -115,34 +103,28 @@ require_once '../includes/themeHeader.php';
                 <h5 class="text-primary">Business Details</h5>
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="/assets/imgs/logos/<?= $tenant['LogoUrl'] == null ? "default.png" : $tenant['LogoUrl'] ?>"
-                            alt="Logo" class="img-fluid" id="imagePreview">
+                        <img src="/assets/imgs/logos/<?= $tenant['LogoUrl'] == null ? "default.png" : $tenant['LogoUrl'] ?>" alt="Logo" class="img-fluid" id="imagePreview">
                     </div>
                     <div class="col-md-6">
                         <div class="mb-4">
                             <label for="businessName">Business Name</label>
-                            <input type="text" value="<?= $tenant['Name'] ?>" name="businessName" id="businessName"
-                                class="form-control" placeholder="Business Name" required>
+                            <input type="text" value="<?= $tenant['Name'] ?>" name="businessName" id="businessName" class="form-control" placeholder="Business Name" required>
                         </div>
                         <div class="mb-4">
                             <label for="businessEmail">Business Email</label>
-                            <input type="email" value="<?= $tenant['Email'] ?>" name="businessEmail" id="businessEmail"
-                                class="form-control" placeholder="Business Email" required>
+                            <input type="email" value="<?= $tenant['Email'] ?>" name="businessEmail" id="businessEmail" class="form-control" placeholder="Business Email" required>
                         </div>
                         <div class="mb-4">
                             <label for="businessPhone">Business Phone</label>
-                            <input type="text" value="<?= $tenant['Phone'] ?>" name="businessPhone" id="businessPhone"
-                                class="form-control" placeholder="Business Phone" required>
+                            <input type="text" value="<?= $tenant['Phone'] ?>" name="businessPhone" id="businessPhone" class="form-control" placeholder="Business Phone" required>
                         </div>
                         <div class="mb-4">
                             <label for="businessAddress">Business Address</label>
-                            <input type="text" value="<?= $tenant['Address'] ?>" name="businessAddress"
-                                id="businessAddress" class="form-control" placeholder="Business Address" required>
+                            <input type="text" value="<?= $tenant['Address'] ?>" name="businessAddress" id="businessAddress" class="form-control" placeholder="Business Address" required>
                         </div>
                         <div class="mb-4">
                             <label for="logo">Upload Logo</label>
-                            <input type="file" name="logo" id="logo" class="form-control-file" accept="image/*"
-                                onchange="showPreview(event);">
+                            <input type="file" name="logo" id="logo" class="form-control-file" accept="image/*" onchange="showPreview(event);">
                         </div>
                     </div>
                 </div>

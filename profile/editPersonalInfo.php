@@ -2,16 +2,7 @@
 require_once '../includes/functions.php';
 require_once '../includes/Connection.php';
 require_once '../constants/Role.php';
-
-// check authentication
-if (!checkAuth()) {
-    header("Location: /?returnUrl=" . $_SERVER['REQUEST_URI']);
-}
-
-// check if user is admin
-if (!isAdmin()) {
-    header("Location: /error/accessDenied.php");
-}
+require_once '../includes/authorize.php';
 
 // get tenant id
 $userId = getLoggedInUserId();
@@ -105,7 +96,7 @@ require_once '../includes/themeHeader.php';
                         <input type="text" name="address" id="address" class="form-control" placeholder="Address" value="<?= $user['Address'] ?>" required>
                     </div>
 
-                    <hr/>
+                    <hr />
                 </div>
             </div>
             <div class="card-footer">

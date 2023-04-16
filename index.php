@@ -89,12 +89,6 @@ require_once 'includes/header.php';
                                 <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password (*)" required>
                                 <label for="floatingPassword">Password (*)</label>
                             </div>
-                            <div class="mb-3 form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    Remember Me
-                                </label>
-                            </div>
 
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-outline-primary w-100">Login</button>
