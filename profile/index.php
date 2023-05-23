@@ -125,6 +125,7 @@ require_once '../includes/themeHeader.php';
                 endif;
                 ?>
                 <a class="btn btn-info" href="/profile/mySales.php"><i class="fas fa-fw fa-file"></i> My Sales</a>
+                <a class="btn btn-warning" href="/profile/changePassword.php"><i class="fas fa-fw fa-key"></i> Change Password</a>
             </div>
         </div>
     </form>
