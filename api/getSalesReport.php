@@ -18,7 +18,25 @@ function getLastWeekSalesReport($tenantId)
     return json_encode($result);
 }
 
-
-//get last week sales report with total sales in json format with name of day
+//get last week sales report with total sales in json format with name of day and get sales 0 if no sales
 $report = getLastWeekSalesReport(getTenantId());
+for($i=0;$i<7;$i++)
+{
+    $day = date('l', strtotime("-$i day"));
+    $found = false;
+    foreach(json_decode($report) as $item)
+    {
+        if($item->Day == $day)
+        {
+            $found = true;
+            break;
+        }
+    }
+    if(!$found)
+    {
+        $report = substr_replace($report, '{"Total":"0","Day":"'.$day.'"},', 1, 0);
+    }
+}
+
+
 echo $report;

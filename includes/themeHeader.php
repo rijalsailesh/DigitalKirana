@@ -156,6 +156,8 @@ $tenant = getTenantById(getTenantId());
                             <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/productSuppliers.php") ? "active" : "" ?>" href=" /reports/productSuppliers.php">Product Supplier</a>
                             <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/supplierProducts.php") ? "active" : "" ?>" href="/reports/supplierProducts.php">Supplier Product</a>
                             <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/stock.php") ? "active" : "" ?>" href="/reports/stock.php">Stock</a>
+                            <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/minimumStock.php") ? "active" : "" ?>" href="/reports/minimumStock.php">Minimum Stock</a>
+                            <a class="collapse-item <?= strpos($_SERVER['REQUEST_URI'], "reports/maximumStock.php") ? "active" : "" ?>" href="/reports/maximumStock.php">Maximum Stock</a>
                         </div>
                     </div>
                 </li>
@@ -216,14 +218,6 @@ $tenant = getTenantById(getTenantId());
                                 <a class="dropdown-item" href="/profile">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <button class="dropdown-item" data-toggle="modal" data-target="#logoutModal">
