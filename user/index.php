@@ -123,15 +123,19 @@ require_once '../includes/themeHeader.php';
                                     <form action="/user/toggleStatus.php" method="post" class="d-inline">
                                         <input type="hidden" name="id" value="<?= $user['Id'] ?>">
                                         <input type="hidden" name="status" value="<?= $user['Status'] ?>">
-                                        <button type="submit" class='btn btn-sm <?= $user['Status'] ? "btn-danger" : "btn-primary" ?>'>
-                                            <i class=" fas fa-fw <?= $user['Status'] ? "fa-ban" : "fa-check" ?>"></i> <?= $user['Status'] ? "Deactivate" : "Activate" ?>
+                                        <button type="submit" class='btn btn-sm <?= $user['Status'] ? "btn-danger" : "btn-primary" ?>' title='<?= $user['Status'] ? "Deactivate" : "Activate" ?>'>
+                                            <i class=" fas fa-fw <?= $user['Status'] ? "fa-ban" : "fa-check" ?>"></i>
+
                                         </button>
                                     </form>
 
-                                    <a href="/user/edit.php?id=<?= $user['Id'] ?>" class="btn btn-sm btn-info"><i class="fas fa-fw fa-edit"></i>Edit</a>
+                                    <a href="/user/edit.php?id=<?= $user['Id'] ?>" class="btn btn-sm btn-info" title="edit"><i class="fas fa-fw fa-edit"></i></a>
 
+                                    <form action="/user/resetPassword.php" method="get" class="d-inline">
+                                        <input type="hidden" name="id" value="<?= $user['Id'] ?>">
+                                        <button title="Reset Password" class="btn btn-sm btn-warning"><i class="fas fa-fw fa-key"></i></button>
+                                    </form>
                                 </td>
-
                             </tr>
                         <?php
                         endforeach;
@@ -143,6 +147,7 @@ require_once '../includes/themeHeader.php';
         </div>
     </div>
 </div>
+
 
 <script>
     //print printable area on click

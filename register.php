@@ -5,7 +5,7 @@ require_once('constants/TenantStatus.php');
 
 $connection = ConnectionHelper::getConnection();
 
-if(checkAuth()){
+if (checkAuth()) {
     header("Location: /");
     return;
 }
@@ -98,116 +98,106 @@ if (isPost()) {
 }
 
 require_once 'includes/header.php';
+
 ?>
 
-<div class="container-fluid min-vh-100 d-flex align-items-center">
-    <div class="container">
-        <div class="row py-5">
-            <div class="col-4">
+<!-- ======= Services Section ======= -->
+<section id="services" class="services section-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Register On Digital Kirana</h2>
+            <p>Simplify Inventory Management with Digital Kirana</p>
+        </div>
+
+        <div class="icon-box text-center">
+            <?php renderMessages(); ?>
+            <form action="" method="post">
                 <div class="row">
+                    <div class="col-12 mb-3">
+                        <h3 class="text-start text-uppercase">Personal Details</h3>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter First Name (*)" required>
+                            <label for="firstName">First Name (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter First Name  (*)" required>
+                            <label for="lastName">Last Name (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email (*)" required>
+                            <label for="email">Email (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter Phone (*)" required>
+                            <label for="phone">Phone (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-floating mb-3">
+                            <textarea id="address" name="address" class="form-control" placeholder="Enter Address (*)" required style="height: 100px;"></textarea>
+                            <label for="phone">Address (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter Username (*)" required>
+                            <label for="username">Username (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password (*)" required>
+                            <label for="password">Password (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-12 my-3">
+                        <h3 class="text-start text-uppercase">Business Details</h3>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" id="businessName" name="businessName" class="form-control" placeholder="Enter Business Name (*)" required>
+                            <label for="businessName">Business Name (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" id="businessEmail" name="businessEmail" class="form-control" placeholder="Enter Business Email (*)" required>
+                            <label for="businessEmail">Business Email (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="tel" id="businessPhone" name="businessPhone" class="form-control" placeholder="Enter Business Phone (*)" required>
+                            <label for="businessPhone">Business Phone (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-floating mb-3">
+                            <input type="tel" id="businessAddress" name="businessAddress" class="form-control" placeholder="Enter Business Address (*)" required>
+                            <label for="businessAddress">Business Address (*)</label>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <button class="btn btn-primary w-100">Register</button>
+                    </div>
                     <div class="col-12">
-                        <h1 class="display-2 fw-bold text-primary">Register</h1>
+                        <p class="text-center"><span>Already have an account? </span> <a href="/">Login</a>
+                        </p>
                     </div>
                 </div>
-                <p class="text-dark py-4" style="text-align:justify">Lorem ipsum dolor sit amet consectetur, adipisicing
-                    elit. Quaerat fugiat tempore commodi, nesciunt assumenda aspernatur deleniti molestias reiciendis
-                    voluptas enim eos repudiandae est temporibus eum in ducimus sed facilis sapiente officia debitis, ?
-                </p>
-            </div>
-            <div class="col-8">
-                <form action="" method="post">
-                    <div class="card shadow-lg">
-                        <div class="card-body">
-                            <?php renderMessages(); ?>
-                            <div class="card mb-4">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="card-title">Personal Details</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="form-floating mb-3 col-6">
-                                            <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter First Name (*)" required>
-                                            <label for="firstName">First Name (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-6">
-                                            <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter First Name  (*)" required>
-                                            <label for="lastName">Last Name (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-6">
-                                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email (*)" required>
-                                            <label for="email">Email (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-6">
-                                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter Phone (*)" required>
-                                            <label for="phone">Phone (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-12">
-                                            <textarea id="address" name="address" class="form-control" placeholder="Enter Address (*)" required rows="8"></textarea>
-                                            <label for="phone">Address (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-12">
-                                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter Username (*)" required>
-                                            <label for="username">Username (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-12">
-                                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter Password (*)" required>
-                                            <label for="password">Password (*)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card ">
-                                <div class="card-header bg-primary text-white">
-                                    <h5 class="card-title">Business Details</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="form-floating mb-3 col-6">
-                                            <input type="text" id="businessName" name="businessName" class="form-control" placeholder="Enter Business Name (*)" required>
-                                            <label for="businessName">Business Name (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-6">
-                                            <input type="email" id="businessEmail" name="businessEmail" class="form-control" placeholder="Enter Business Email (*)" required>
-                                            <label for="businessEmail">Business Email (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-12">
-                                            <input type="tel" id="businessPhone" name="businessPhone" class="form-control" placeholder="Enter Business Phone (*)" required>
-                                            <label for="businessPhone">Business Phone (*)</label>
-                                        </div>
-
-                                        <div class="form-floating mb-3 col-12">
-                                            <textarea id="businessAddress" name="businessAddress" class="form-control" placeholder="Enter Business Address (*)" required rows="8"></textarea>
-                                            <label for="businessAddress">Business Address (*)</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="mb-3">
-                                <button type="submit" class="btn btn-primary w-100">Register</button>
-                            </div>
-                            <div class="mb-3">
-                                <p class="text-center"><span>Already have an account? </span> <a href="/">Login</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            </form>
         </div>
     </div>
-</div>
-
+</section><!-- End Services Section -->
 
 <?php
 require_once 'includes/footer.php';
