@@ -19,7 +19,7 @@ function getAllSales($billNumber, $fromDate, $toDate, $customerId, $userId)
     //get all suppliers by tenant id
     $connection = ConnectionHelper::getConnection();
 
-    $query = "select s.Id, c.CustomerName, s.BillNumber, s.Vat, s.Discount, s.GrossTotal, s.NetTotal, s.Remarks, u.FirstName, u.LastName, s.CreatedAt from sales s inner join user u on s.UserId = u.Id inner join customer c on s.CustomerId = c.Id where ((:search is null) or (s.BillNumber like :search)) and ((:fromDate is null) or (s.CreatedAt >= :fromDate)) and ((:toDate is null) or (s.CreatedAt <= :toDate)) and ((:customerId is null) or (s.CustomerId = :customerId)) and ((:userId is null) or (s.UserId = :userId)) and c.TenantId = :tenantId";
+    $query = "select s.Id, s.CustomerName, s.BillNumber, s.Vat, s.Discount, s.GrossTotal, s.NetTotal, s.Remarks, u.FirstName, u.LastName, s.CreatedAt from sales s inner join user u on s.UserId = u.Id where ((:search is null) or (s.BillNumber like :search)) and ((:fromDate is null) or (s.CreatedAt >= :fromDate)) and ((:toDate is null) or (s.CreatedAt <= :toDate)) and ((:customerId is null) or (s.CustomerId = :customerId)) and ((:userId is null) or (s.UserId = :userId)) and s.TenantId = :tenantId";
 
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
@@ -105,7 +105,7 @@ require_once '../includes/themeHeader.php';
                         <input type="date" class="form-control" value="<?= $toDate ?>" id="toDate" name="toDate">
                     </div>
                     <div class="col-2">
-                        <label for="customer">Supplier</label>
+                        <label for="customer">Customer</label>
                         <select name="customerId" id="customer" class="singleSelect form-control">
                             <option value="">Select Customer</option>
                             <?php
@@ -120,7 +120,7 @@ require_once '../includes/themeHeader.php';
                         </select>
                     </div>
                     <div class="col-2">
-                        <label for="userId">Supplier</label>
+                        <label for="userId">User</label>
                         <select name="userId" id="user" class="singleSelect form-control">
                             <option value="">Select User</option>
                             <?php
@@ -152,7 +152,7 @@ require_once '../includes/themeHeader.php';
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Bill Number</th>
-                                <th scope="col">Supplier Name</th>
+                                <th scope="col">Customer Name</th>
                                 <th scope="col">VAT</th>
                                 <th scope="col">Discount</th>
                                 <th scope="col">Gross Total</th>

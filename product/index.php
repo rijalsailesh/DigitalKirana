@@ -10,7 +10,7 @@ function getAllProducts($productName, $categoryId)
 {
     //get all products by tenant id
     $connection = ConnectionHelper::getConnection();
-    $query = "select p.Id, p.ImageUrl, p.ProductCode, p.ProductName, p.SellingPrice, p.CostPrice, p.WholesalePrice, p.Unit, p.Quantity, p.CreatedAt, p.Description, c.CategoryName from product p inner join category c on p.CategoryId = c.Id where ((:productName is null) or (ProductName like concat(:productName, '%')) or (ProductCode like concat(:productName, '%'))) and   ((:categoryId is null) or (CategoryId = :categoryId)) and p.TenantId = :tenantId";
+    $query = "select p.Id, p.ImageUrl, p.ProductCode, p.ProductName, p.SellingPrice, p.CostPrice, p.WholesalePrice, p.Unit, p.Quantity, p.CreatedAt, p.Description, c.CategoryName from product p inner join category c on p.CategoryId = c.Id where ((:productName is null) or (ProductName like concat(:productName, '%')) or (ProductCode like concat(:productName, '%'))) and   ((:categoryId is null) or (CategoryId = :categoryId)) and p.TenantId = :tenantId order by p.CreatedAt desc";
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
     $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);

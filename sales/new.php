@@ -65,7 +65,9 @@ if (isPost()) {
     $returnAmount = $_POST['returnAmount'];
     $customerName = $_POST['customerName'];
 
-
+    if($customerId == 0 || $customerId == ''){
+        $customerId = null;
+    }
 
     //inerting into purchase table
     $connection = ConnectionHelper::getConnection();
@@ -86,6 +88,8 @@ if (isPost()) {
     $statement->bindParam('returnAmount', $returnAmount);
     $statement->bindParam('customerName', $customerName);
     $statement->execute();
+
+
 
     $salesId = $connection->lastInsertId();
 
@@ -138,7 +142,7 @@ require_once '../includes/themeHeader.php';
         <a href="/sales" class="btn btn-primary"><i class="fas fa-fw fa-arrow-left"></i> View Sales</a>
         <div class="card mt-2 shadow-lg">
             <div class="card-header bg-primary">
-                <h4 class="card-title text-light">Create Purchase</h4>
+                <h4 class="card-title text-light">Create Sales</h4>
             </div>
             <div class="card-body">
                 <?php renderMessages(); ?>
@@ -151,7 +155,7 @@ require_once '../includes/themeHeader.php';
                             </div>
                             <div class="col-md-4">
                                 <label for="customer">Customer</label> <sup><button type="button" id="showCustomerBtn" class="border-0 d-inline p-0 bg-white text-info"><i class="fas fa-fw fa-info"></i></button></sup>
-                                <select name="customerId" id="customer" class="form-control" required>
+                                <select name="customerId" id="customer" class="form-control">
                                     <option value="">Select Customer</option>
                                     <?php
                                     foreach ($customers as $customer) :

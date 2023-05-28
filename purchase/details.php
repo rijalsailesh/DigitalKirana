@@ -22,7 +22,7 @@ function getAllPurchasedProducts($purchaseId)
 function getPurchase($purchaseId)
 {
     $connection = ConnectionHelper::getConnection();
-    $query = "select s.SupplierName, s.Email, s.Phone, s.Address, p.Vat, p.Discount, p.BillNumber, p.GrossTotal, p.NetTotal, p.Remarks, p.CreatedAt, p.TenderAmount, p.ReturnAmount, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from purchase p inner join supplier s on p.SupplierId = s.Id inner join Tenants t on p.TenantId = t.Id where p.Id = :purchaseId";
+    $query = "select s.SupplierName, s.Email as SupplierEmail, s.Phone as SupplierPhone, s.Address as SupplierAddress, p.Vat, p.Discount, p.BillNumber, p.GrossTotal, p.NetTotal, p.Remarks, p.CreatedAt, p.TenderAmount, p.ReturnAmount, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from purchase p inner join supplier s on p.SupplierId = s.Id inner join Tenants t on p.TenantId = t.Id where p.Id = :purchaseId";
     $statement = $connection->prepare($query);
     $statement->bindParam('purchaseId', $purchaseId, PDO::PARAM_INT);
     $statement->execute();
@@ -199,15 +199,15 @@ require_once '../includes/themeHeader.php';
                                         </tr>
                                         <tr>
                                             <th scope="row">Email</th>
-                                            <td><?= $purchase['Email'] ?></td>
+                                            <td><?= $purchase['SupplierEmail'] ?></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Phone</th>
-                                            <td><?= $purchase['Phone'] ?></td>
+                                            <td><?= $purchase['SupplierPhone'] ?></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Address</th>
-                                            <td><?= $purchase['Address'] ?></td>
+                                            <td><?= $purchase['SupplierAddress'] ?></td>
                                         </tr>
                                     </tbody>
                                 </table>

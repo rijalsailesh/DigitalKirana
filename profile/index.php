@@ -89,7 +89,7 @@ require_once '../includes/themeHeader.php';
                     <h5 class="text-primary">Business Details</h5>
                     <div class="row">
                         <div class="col-md-6">
-                            <img src="/assets/imgs/logos/<?= $tenant['LogoUrl'] == null ? "default.png" : $tenant['LogoUrl'] ?>" alt="Logo">
+                            <img src="/assets/imgs/logos/<?= $tenant['LogoUrl'] == null ? "default.png" : $tenant['LogoUrl'] ?>" alt="Logo" class="img-fluid">
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">

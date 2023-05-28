@@ -138,7 +138,7 @@ require_once '../includes/themeHeader.php';
 
                         <div class="col-12 mb-4">
                             <label for="categoryId">Category</label>
-                            <select type="text" name="categoryId" id="category" class="form-control" required>
+                            <select type="text" name="categoryId" id="category" class="singleSelect form-control" required>
                                 <option value="">Select Category</option>
 
                                 <?php

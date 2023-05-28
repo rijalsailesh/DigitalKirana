@@ -157,7 +157,7 @@ require_once '../includes/themeHeader.php';
                             </div>
                             <div class="col-md-4">
                                 <label for="supplier">Supplier</label> <sup><button type="button" id="showSupplierBtn" class="border-0 d-inline p-0 bg-white text-info"><i class="fas fa-fw fa-info"></i></button></sup>
-                                <select name="supplierId" id="supplier" class="form-control" required>
+                                <select name="supplierId" id="supplier" class="singleSelect form-control" required>
                                     <option value="">Select Supplier</option>
                                     <?php
                                     foreach ($suppliers as $supplier) :

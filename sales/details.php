@@ -19,11 +19,10 @@ function getAllSoldProducts($salesId)
     return $result;
 }
 
-//get purchase by purchaseId
-function getSales($salesId)
+function checkCustomerIdInSales($salesId)
 {
     $connection = ConnectionHelper::getConnection();
-    $query = "select c.CustomerName, c.Email, c.Phone, c.Address, s.Vat, s.Discount, s.BillNumber, s.GrossTotal, s.NetTotal, s.Remarks, s.CreatedAt, s.TenderAmount, s.ReturnAmount, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from sales s inner join customer c on s.CustomerId = c.Id inner join Tenants t on s.TenantId = t.Id where s.Id = :salesId";
+    $query = "select CustomerId from sales where Id = :salesId";
     $statement = $connection->prepare($query);
     $statement->bindParam('salesId', $salesId, PDO::PARAM_INT);
     $statement->execute();
@@ -31,11 +30,44 @@ function getSales($salesId)
     return $result;
 }
 
+//get purchase by purchaseId
+function getSales($salesId)
+{
+    $connection = ConnectionHelper::getConnection();
+
+
+    $result = checkCustomerIdInSales($salesId);
+
+    if ($result["CustomerId"] == null) {
+        $salesQuery = "select s.CustomerName, s.Vat, s.Discount, s.BillNumber, s.GrossTotal, s.NetTotal, s.Remarks, s.CreatedAt, s.TenderAmount, s.ReturnAmount, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from sales s inner join Tenants t on s.TenantId = t.Id where s.Id = :salesId";
+    } else {
+        $salesQuery = "select c.CustomerName, c.Email as CustomerEmail, c.Phone as CustomerPhone, c.Address as CustomerAddress, s.Vat, s.Discount, s.BillNumber, s.GrossTotal, s.NetTotal, s.Remarks, s.CreatedAt, s.TenderAmount, s.ReturnAmount, t.LogoUrl, t.Name, t.Email, t.Phone, t.Address from sales s inner join customer c on s.CustomerId = c.Id inner join Tenants t on s.TenantId = t.Id where s.Id = :salesId";
+    }
+
+    $statement = $connection->prepare($salesQuery);
+    $statement->bindParam('salesId', $salesId, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+
+
 
 // get all purchased products
 $soldProducts = getAllSoldProducts($salesId);
 // get purchase
 $sales = getSales($salesId);
+
+$checkCustomerId = checkCustomerIdInSales($salesId);
+
+if($checkCustomerId["CustomerId"]==null){
+    $sales['CustomerEmail'] = 'N/A';
+    $sales['CustomerPhone'] = 'N/A';
+    $sales['CustomerAddress'] = 'N/A';
+}
+
+
 
 require_once '../includes/themeHeader.php';
 ?>
@@ -187,7 +219,7 @@ require_once '../includes/themeHeader.php';
                     <div class="card mt-4">
                         <div class="card shadow-lg">
                             <div class="card-header">
-                                <h6 class="card-title text-primary">Supplier Info</h6>
+                                <h6 class="card-title text-primary">Customer Info</h6>
                             </div>
                             <div class="card-body">
                                 <table class="table table-bordered">
@@ -198,15 +230,15 @@ require_once '../includes/themeHeader.php';
                                         </tr>
                                         <tr>
                                             <th scope="row">Email</th>
-                                            <td><?= $sales['Email'] ?></td>
+                                            <td><?= $sales['CustomerEmail'] ?></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Phone</th>
-                                            <td><?= $sales['Phone'] ?></td>
+                                            <td><?= $sales['CustomerPhone'] ?></td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Address</th>
-                                            <td><?= $sales['Address'] ?></td>
+                                            <td><?= $sales['CustomerAddress'] ?></td>
                                         </tr>
                                     </tbody>
                                 </table>

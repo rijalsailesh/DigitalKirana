@@ -156,8 +156,8 @@ require_once '../includes/themeHeader.php';
     <?php
             endif;
     ?>
-
     </div>
+
 </div>
 
 <script>
