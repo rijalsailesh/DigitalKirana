@@ -6,15 +6,30 @@ require_once '../includes/authorize.php';
 $billNumber = getParam('billNumber');
 $fromDate = getParam('fromDate', date('Y-m-d'));
 $toDate = getParam('toDate', date('Y-m-d'));
+$customerId = getParam('customerId');
 
+function getAllCustomers()
+{
+    //get all suppliers by tenant id
+    $connection = ConnectionHelper::getConnection();
+    $query = "select * from customer where TenantId = :tenantId";
+    $statement = $connection->prepare($query);
+    $tenantId = getTenantId();
+    $statement->bindParam('tenantId', $tenantId, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
 
-function getAllSales($billNumber, $fromDate, $toDate)
+$customers = getAllCustomers();
+
+function getAllSales($billNumber, $fromDate, $toDate, $customerId)
 {
     //get all suppliers by tenant id
     $connection = ConnectionHelper::getConnection();
 
     //get all sales by tenant id and logged in user id
-    $query = "select s.Id, c.CustomerName, s.BillNumber, s.Vat, s.Discount, s.GrossTotal, s.NetTotal, s.Remarks, u.FirstName, u.LastName, s.CreatedAt from sales s inner join user u on s.UserId = u.Id inner join customer c on s.CustomerId = c.Id where ((:search is null) or (s.BillNumber like :search)) and ((:fromDate is null) or (s.CreatedAt >= :fromDate)) and ((:toDate is null) or (s.CreatedAt <= :toDate)) and u.Id = :userId and c.TenantId = :tenantId";
+    $query = "select s.Id, s.CustomerName, s.BillNumber, s.Vat, s.Discount, s.GrossTotal, s.NetTotal, s.Remarks, u.FirstName, u.LastName, s.CreatedAt from sales s inner join user u on s.UserId = u.Id where ((:search is null) or (s.BillNumber like :search)) and ((:fromDate is null) or (s.CreatedAt >= :fromDate)) and ((:toDate is null) or (s.CreatedAt <= :toDate)) and ((:customerId is null) or (s.CustomerId = :customerId)) and ((:userId is null) or (s.UserId = :userId)) and s.TenantId = :tenantId";
 
     $statement = $connection->prepare($query);
     $tenantId = getTenantId();
@@ -22,6 +37,7 @@ function getAllSales($billNumber, $fromDate, $toDate)
     $statement->bindParam('search', $billNumber, PDO::PARAM_STR);
     $statement->bindParam('fromDate', $fromDate, PDO::PARAM_STR);
     $statement->bindParam('toDate', $toDate, PDO::PARAM_STR);
+    $statement->bindParam('customerId', $customerId, PDO::PARAM_INT);
     $userId = getLoggedInUserId();
     $statement->bindParam('userId', $userId, PDO::PARAM_INT);
 
@@ -35,7 +51,7 @@ $tenantId = getTenantId();
 
 
 
-$sales = getAllSales($billNumber, $fromDate, $toDate);
+$sales = getAllSales($billNumber, $fromDate, $toDate, $customerId);
 
 
 
@@ -70,6 +86,21 @@ require_once '../includes/themeHeader.php';
                     <div class="col-2">
                         <label for="toDate">To</label>
                         <input type="date" class="form-control" value="<?= $toDate ?>" id="toDate" name="toDate">
+                    </div>
+                    <div class="col-2">
+                        <label for="customer">Customer</label>
+                        <select name="customerId" id="customer" class="singleSelect form-control">
+                            <option value="">Select Customer</option>
+                            <?php
+                            foreach ($customers as $customer) :
+                            ?>
+                                <option <?= $customerId == $customer['Id'] ? "selected" : "" ?> value="<?= $customer['Id'] ?>">
+                                    <?= $customer['CustomerName'] ?>
+                                </option>
+                            <?php
+                            endforeach;
+                            ?>
+                        </select>
                     </div>
                     <div class="col-2">
                         <label for="search">&nbsp;</label>
