@@ -8,7 +8,7 @@ $supplierId = getParam('supplierId', 0);
 
 //get all suppliers by tenant id
 $connection = ConnectionHelper::getConnection();
-$query = "select p.ProductCode, p.ProductName, c.CategoryName, p.Unit from supplier_products sp inner join product p on p.Id = sp.ProductId inner join Category c on p.CategoryId = c.Id where sp.SupplierId = :supplierId and sp.TenantId = :tenantId";
+$query = "select p.ProductCode, p.ProductName, c.CategoryName, p.Unit from supplier_products sp inner join product p on p.Id = sp.ProductId inner join category c on p.CategoryId = c.Id where sp.SupplierId = :supplierId and sp.TenantId = :tenantId";
 $statement = $connection->prepare($query);
 $tenantId = getTenantId();
 $statement->bindParam('supplierId', $supplierId, PDO::PARAM_INT);
