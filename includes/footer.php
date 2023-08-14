@@ -51,7 +51,7 @@
 
 <div class="container footer-bottom clearfix">
   <div class="copyright">
-    &copy; Copyright <strong><span>Digital Kirana</span></strong>. All Rights Reserved
+    &copy; Copyright <strong><span>Digital Kirana</span></strong>. Developed with ❤️ by <a href="https://saileshrijal.com.np" style="color: white; font-weight: bold;">Sailesh Rijal</a>
   </div>
 </div>
 </footer><!-- End Footer -->

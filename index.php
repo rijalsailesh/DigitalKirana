@@ -106,12 +106,12 @@ require_once 'includes/header.php';
                             <div class="card-body p-5">
                                 <?php renderMessages(); ?>
                                 <div class="mb-3 form-floating">
-                                    <input type="text" id="username" class="form-control" name="username" placeholder="Username">
+                                    <input type="text" id="username" class="form-control" name="username" placeholder="Username" value="admin">
                                     <label for="username">Username*</label>
                                 </div>
                                 <div class="mb-3 form-floating">
-                                    <input type="password" id="username" class="form-control" name="password" placeholder="Username">
-                                    <label for="username">Password*</label>
+                                    <input type="password" id="username" class="form-control" name="password" placeholder="Username" value="admin">
+                                    <label for="username" >Password*</label>
                                 </div>
                                 <div class="text-center">
                                     <button class="btn-get-started border-0 w-100">Login</button>
@@ -270,77 +270,6 @@ require_once 'includes/header.php';
 
         </div>
     </section><!-- End Services Section -->
-
-
-
-    <!-- ======= Team Section ======= -->
-    <section id="team" class="team section-bg">
-        <div class="container" data-aos="fade-up">
-
-            <div class="section-title">
-                <h2>Team</h2>
-                <p>Our experienced and passionate team at Digital Kirana is committed to providing exceptional inventory management solutions tailored to your business needs.
-                </p>
-            </div>
-
-            <div class="row">
-
-                <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="member d-flex align-items-start">
-                        <div class="pic"><img src="/assets/public-theme/assets/img/team/team-1.jpg" class="img-fluid" alt=""></div>
-                        <div class="member-info">
-                            <h4>Muna Uprety</h4>
-                            <span>Developer</span>
-                            <p>Muna Uprety is a skilled Software Developer at Digital Kirana.
-                            </p>
-                            <div class="social">
-                                <a href=""><i class="ri-twitter-fill"></i></a>
-                                <a href=""><i class="ri-facebook-fill"></i></a>
-                                <a href=""><i class="ri-instagram-fill"></i></a>
-                                <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="member d-flex align-items-start">
-                        <div class="pic"><img src="/assets/public-theme/assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
-                        <div class="member-info">
-                            <h4>Sailesh Rijal</h4>
-                            <span>Developer</span>
-                            <p>Sailesh Rijal is a skilled Software Developer at Digital Kirana.</p>
-                            <div class="social">
-                                <a href=""><i class="ri-twitter-fill"></i></a>
-                                <a href=""><i class="ri-facebook-fill"></i></a>
-                                <a href=""><i class="ri-instagram-fill"></i></a>
-                                <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 mt-4 mx-auto" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="member d-flex align-items-start">
-                        <div class="pic"><img src="/assets/public-theme/assets/img/team/team-3.jpg" class="img-fluid" alt=""></div>
-                        <div class="member-info">
-                            <h4>Pranisha Thapa</h4>
-                            <span>Developer</span>
-                            <p>Pranisha Thapa is a skilled Software Developer at Digital Kirana.</p>
-                            <div class="social">
-                                <a href=""><i class="ri-twitter-fill"></i></a>
-                                <a href=""><i class="ri-facebook-fill"></i></a>
-                                <a href=""><i class="ri-instagram-fill"></i></a>
-                                <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section><!-- End Team Section -->
-
 </main><!-- End #main -->
 
 <?php
