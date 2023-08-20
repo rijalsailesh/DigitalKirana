@@ -29,7 +29,7 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 // get sales report data and display chart
 const salesReport = async () => {
-  const response = await fetch('http://digitalkirana/api/getsalesreport.php');
+  const response = await fetch('/api/getSalesReport.php');
   const data = await response.json();
   console.log(data);
   const labels = data.map((item) => item.Day);

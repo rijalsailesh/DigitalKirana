@@ -379,7 +379,7 @@ require_once '../includes/themeHeader.php';
     const customer = document.querySelector("#customer");
     customer.addEventListener("change", () => {
         //get data for supplier from database and show in modal
-        const customerDetails = fetch(`http://digitalkirana/api/getCustomer.php?id=${customer.value}`)
+        const customerDetails = fetch(`/api/getCustomer.php?id=${customer.value}`)
             .then(response => response.json())
             .then(data => {
                 document.querySelector("#customerName").value = data.CustomerName;
@@ -402,7 +402,7 @@ require_once '../includes/themeHeader.php';
 
         //get data for supplier from database and show in modal
         function getCustomerById(id) {
-            const customerDetails = fetch(`http://digitalkirana/api/getCustomer.php?id=${customer.value}`)
+            const customerDetails = fetch(`/api/getCustomer.php?id=${customer.value}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('modal_customerName').value = data.CustomerName;
@@ -443,7 +443,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?code=${productCode.value}`)
+        const productDetails = fetch(`/api/getProduct.php?code=${productCode.value}`)
             .then(response => response.json())
             .then(data => {
                 product.value = data.Id;
@@ -474,7 +474,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?id=${product.value}`)
+        const productDetails = fetch(`/api/getProduct.php?id=${product.value}`)
             .then(response => response.json())
             .then(data => {
                 productCode.value = data.ProductCode;

@@ -394,7 +394,7 @@ require_once '../includes/themeHeader.php';
 
         //get data for supplier from database and show in modal
         function getSupplierById(id) {
-            const supplierDetails = fetch(`http://digitalkirana/api/getSupplier.php?id=${supplier.value}`)
+            const supplierDetails = fetch(`/api/getSupplier.php?id=${supplier.value}`)
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('modal_supplierName').value = data.SupplierName;
@@ -435,7 +435,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?code=${productCode.value}`)
+        const productDetails = fetch(`/api/getProduct.php?code=${productCode.value}`)
             .then(response => response.json())
             .then(data => {
                 product.value = data.Id;
@@ -466,7 +466,7 @@ require_once '../includes/themeHeader.php';
             return;
         }
 
-        const productDetails = fetch(`http://digitalkirana/api/getProduct.php?id=${product.value}`)
+        const productDetails = fetch(`/api/getProduct.php?id=${product.value}`)
             .then(response => response.json())
             .then(data => {
                 productCode.value = data.ProductCode;

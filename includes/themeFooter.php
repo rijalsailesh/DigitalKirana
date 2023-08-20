@@ -5,7 +5,7 @@
 <footer class="sticky-footer bg-white non-printable">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Digital Kirana |  Developed with ❤️ by <a href="https://saileshrijal.com.np" style="color: white; font-weight: bold;">Sailesh Rijal</a></span>
+            <span>Copyright &copy; Digital Kirana |  Developed with ❤️ by <a href="https://saileshrijal.com.np" style="font-weight: bold;">Sailesh Rijal</a></span>
         </div>
     </div>
 </footer>
